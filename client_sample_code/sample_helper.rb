@@ -1,7 +1,7 @@
 require 'rest_client'
 require 'json'
 
-@base_uri = "http://localhost:9393"
+@base_uri = "http://localhost:9292"
 
 def magex_post(route, payload)
   puts "======"

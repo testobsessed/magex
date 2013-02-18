@@ -14,6 +14,7 @@ class Account
       :mbns => 0,
       :pixd => 0
     }
+    self
   end
   
   def self.generate_secret

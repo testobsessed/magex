@@ -20,6 +20,10 @@ describe Account do
     account.data[:secret].should =~ /^[a-zA-Z0-9]{50}$/
   end
   
+  it "can tell you its secret (shhh)" do
+    account.secret.should eq(account.data[:secret])
+  end
+  
   describe "balances" do
     subject { account.data[:balances] }
     it { should include(:gold) }
