@@ -1,3 +1,6 @@
+# Magex Copyright 2013 Elisabeth Hendrickson
+# See LICENSE.txt for licensing information
+
 require 'spec_helper'
 
 describe "Order routes" do
@@ -12,7 +15,7 @@ describe "Order routes" do
     }
     post "/orders/buy", order_data.to_json
     last_response.status.should eq(200)
-    response_should_have_keys(["order_id", "type", "status", "secret", "commodity", "quantity", "max_price"])
+    response_should_be_success_with_keys(["order_id", "type", "status", "secret", "commodity", "quantity", "max_price"])
     get_from_response("status").should eq("completed")
   end
   
@@ -27,7 +30,7 @@ describe "Order routes" do
     }
     post "/orders/sell", order_data.to_json
     last_response.status.should eq(200)
-    response_should_have_keys(["order_id", "type", "status", "secret", "commodity", "quantity", "min_price"])
+    response_should_be_success_with_keys(["order_id", "type", "status", "secret", "commodity", "quantity", "min_price"])
     get_from_response("status").should eq("open")
   end
   

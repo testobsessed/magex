@@ -1,3 +1,6 @@
+# Magex Copyright 2013 Elisabeth Hendrickson
+# See LICENSE.txt for licensing information
+
 source :rubygems
 gem 'rack'
 gem 'sinatra', :require => 'sinatra/base'

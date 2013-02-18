@@ -70,5 +70,5 @@ Note that because this code base is intended for exercises only, it has only cur
 
 # License
 
-This source code is licensed under the BSD 2-clause license. See LICENSE.txt for details.
+The Magex code base and all related artifacts are copyrighted materials licensed under the BSD 2-clause license. See LICENSE.txt for details.
 

@@ -1,3 +1,6 @@
+# Magex Copyright 2013 Elisabeth Hendrickson
+# See LICENSE.txt for licensing information
+
 $LOAD_PATH << "client_sample_code"
 require 'sample_helper'
 

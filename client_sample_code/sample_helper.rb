@@ -1,3 +1,6 @@
+# Magex Copyright 2013 Elisabeth Hendrickson
+# See LICENSE.txt for licensing information
+
 require 'rest_client'
 require 'json'
 

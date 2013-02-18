@@ -1,3 +1,6 @@
+# Magex Copyright 2013 Elisabeth Hendrickson
+# See LICENSE.txt for licensing information
+
 class MagexServer < Sinatra::Base
   post '/account/register' do
     payload = request.body.read

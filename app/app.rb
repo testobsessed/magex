@@ -1,3 +1,6 @@
+# Magex Copyright 2013 Elisabeth Hendrickson
+# See LICENSE.txt for licensing information
+
 require 'sinatra'
 require 'json'
 Dir["app/models/*.rb"].each {|file| require file }
