@@ -1,7 +1,9 @@
 require 'spec_helper'
+
 describe Account do
-  let(:username) { "myusername" }
-  let(:account)  { Account.new({:username => username }) }
+  let(:username) { "yakster" }
+  let(:request_data) { { "username" => username } }
+  let(:account)  { Account.new(request_data) }
   describe "can retrieve a hash of account data" do
     subject { account.data }
     it { should have_exactly(3).items }

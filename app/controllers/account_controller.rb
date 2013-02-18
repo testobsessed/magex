@@ -1,7 +1,8 @@
 class MagexServer < Sinatra::Base
   post '/register' do
-    parms = JSON.parse(params.to_s)
-    username = parms["username"]
+    username = nil
+    data = JSON.parse(request.body.read)
+    username = data["username"]
     if username.nil?
       status 400
       response = {
@@ -10,7 +11,7 @@ class MagexServer < Sinatra::Base
       }
     else
       status 200
-      response = Account.new(username).data
+      response = Account.new(data).data
     end
     response.to_json
   end

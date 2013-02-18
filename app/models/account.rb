@@ -4,7 +4,7 @@ class Account
   attr_reader :secret
   
   def initialize(data)
-    @username = data[:username]
+    @username = data["username"]
     @secret = self.class.generate_secret
     @balances = {
       :gold => 1000,
