@@ -1,4 +1,3 @@
-$LOAD_PATH << "."
 $LOAD_PATH << "client_sample_code"
 require 'sample_helper'
 
