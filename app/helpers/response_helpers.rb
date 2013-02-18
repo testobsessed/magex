@@ -1,6 +1,8 @@
 # Magex Copyright 2013 Elisabeth Hendrickson
 # See LICENSE.txt for licensing information
 
+require 'json'
+
 def return_error(code, message)
   {
     :code => code,
@@ -18,4 +20,12 @@ def deliver_json(response)
   content_type :json
   status response[:code]
   response.to_json
+end
+
+def verify_submitted_data(payload, klass)
+  return nil if !JSON.is_json?(payload)
+  data_as_json = JSON.parse(payload)
+  response = klass.valid_json?(data_as_json)
+  return nil if !klass.valid_json?(data_as_json)
+  return data_as_json
 end

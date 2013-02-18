@@ -9,8 +9,8 @@ describe "Order routes" do
     order_data = { 
       :secret => secret, 
       :commodity => "wish", 
-      :quantity => 50,
-      :max_price => 10
+      :quantity => "50",
+      :price => "10"
     }
     post "/orders/buy", order_data.to_json
     response_should_be_success_with_keys(

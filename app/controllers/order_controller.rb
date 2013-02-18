@@ -3,15 +3,14 @@
 
 class MagexServer < Sinatra::Base
   post '/orders/buy' do
-    payload = request.body.read
-    if JSON.is_json?(payload)
-      order_data = JSON.parse(payload)
-      new_order = Order.new(order_data)
+    data = verify_submitted_data(request.body.read, Order)
+    if data
+      new_order = Order.new(data)
       id = @@buy_orders.add(new_order)
-      data = new_order.data.merge({:order_id => id})
-      response = return_success(data)
+      response_data = new_order.data.merge({:order_id => id})
+      response = return_success(response_data)
     else
-      response = respond_with_error 400, "WHOOPS!"
+      response = respond_with_error 400, "Data malformed. Please check your syntax."
     end
     deliver_json(response)
   end
