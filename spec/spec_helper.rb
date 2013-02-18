@@ -30,7 +30,16 @@ def get_from_response(key)
 end
 
 def response_should_have_keys(key_array)
-  last_response.status.should eq(200)
   response = JSON.parse(last_response.body)
   response.keys.should =~ key_array
+end
+
+def response_should_be_success_with_keys(key_array)
+  last_response.status.should eq(200)
+  response_should_have_keys(key_array)
+end
+
+def response_should_be_error(code)
+  last_response.status.should eq(code)
+  response_should_have_keys(["code", "message"])
 end

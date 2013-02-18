@@ -8,4 +8,10 @@ describe AccountCollection do
     subject.add(account)
     subject.count.should eq(1)
   end
+  
+  it "can determine if a username is already taken" do
+    subject.has_user("unicorn").should == false
+    subject.add(account)
+    subject.has_user("unicorn").should == true 
+  end
 end

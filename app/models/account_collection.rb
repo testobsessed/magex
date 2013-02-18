@@ -20,4 +20,8 @@ class AccountCollection
   def secrets
     @accounts.keys
   end
+  
+  def has_user(name)
+    @accounts.map{|key, value| value.data[:username]}.count(name) > 0
+  end
 end

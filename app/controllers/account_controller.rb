@@ -7,32 +7,24 @@ class MagexServer < Sinatra::Base
       username = data["username"]
     end
     if username.nil?
-      status 400
-      response = {
-        :code => 400,
-        :message => "Could not read username. Please check your syntax."
-      }
+      response = return_error 400, "Could not read username. Please check your syntax."
+    elsif MagexServer.accounts.has_user(username)
+      response = return_error 409, "Username already taken. Please try to register again."
     else
-      status 200
       new_account = Account.new(data)
       @@accounts.add(new_account)
-      response = new_account.data
+      response = return_success new_account.data
     end
-    response.to_json
+    deliver_json(response)
   end
   
   get '/account/status/:secret' do
     account = MagexServer.accounts.find(params[:secret])
     if account
-      status 200
-      response = account.data
+      response = return_success account.data
     else
-      status 404
-      response = {
-        :code => 404,
-        :message => "Could not find account. Are you sure you have the right secret?"
-      }
+      response = return_error 404, "Could not find account. Are you sure you have the right secret?"
     end
-    response.to_json
+    deliver_json(response)
   end
 end
