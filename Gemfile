@@ -3,6 +3,7 @@ gem 'rack'
 gem 'sinatra', :require => 'sinatra/base'
 gem 'haml'
 gem 'json'
+gem 'rest-client'
 
 group :test do
   gem 'rspec'
