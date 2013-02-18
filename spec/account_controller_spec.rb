@@ -5,6 +5,10 @@ describe "Account routes" do
     post "/account/register", { :username => "yakster" }.to_json
     response_should_have_keys ["username", "secret", "balances"]
   end
+  
+  it "reject registration if username is already taken" do
+    pending ("to be implemented")
+  end
 
   it "return a 400 if it cannot create an account" do 
     post "/account/register", "baddatahere"
