@@ -4,13 +4,9 @@
 require 'rubygems'
 require 'rspec'
 require 'rack/test'
-$LOAD_PATH << "."
-$LOAD_PATH << "./app"
 
+$LOAD_PATH << "./app"
 require 'app'
-Dir["app/models/*.rb"].each {|file| require file }
-Dir["app/controllers/*.rb"].each {|file| require file }
-Dir["app/helpers/*.rb"].each {|file| require file }
 
 set :environment, :test
 

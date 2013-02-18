@@ -3,6 +3,11 @@
 
 require 'sinatra'
 require 'json'
+$LOAD_PATH << "."
+$LOAD_PATH << "./app"
+$LOAD_PATH << "./app/models"
+$LOAD_PATH << "./app/helpers"
+$LOAD_PATH << "./app/controllers"
 Dir["app/models/*.rb"].each {|file| require file }
 Dir["app/controllers/*.rb"].each {|file| require file }
 Dir["app/helpers/*.rb"].each {|file| require file }
@@ -15,6 +20,7 @@ class MagexServer < Sinatra::Base
   
   before do
     @@accounts ||= AccountCollection.new
+    @@buy_orders ||= OrderCollection.new
   end
   
   def self.accounts

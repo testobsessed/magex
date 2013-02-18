@@ -5,7 +5,6 @@ require 'spec_helper'
 
 describe "Order routes" do
   it "can accept new buy orders" do
-    pending ("to be implemented")
     secret = create_account_named("hamster")
     order_data = { 
       :secret => secret, 
@@ -14,9 +13,16 @@ describe "Order routes" do
       :max_price => 10
     }
     post "/orders/buy", order_data.to_json
-    last_response.status.should eq(200)
-    response_should_be_success_with_keys(["order_id", "type", "status", "secret", "commodity", "quantity", "max_price"])
-    get_from_response("status").should eq("completed")
+    response_should_be_success_with_keys(
+      ["code", 
+       "order_id", 
+       "type", 
+       "status", 
+       "username", 
+       "commodity", 
+       "quantity", 
+       "price"])
+    get_from_response("status").should eq("open")
   end
   
   it "can accept new sell orders" do
@@ -43,16 +49,20 @@ describe "Order routes" do
       :secret => buyer, 
       :commodity => "wish", 
       :quantity => 50, 
-      :max_price => 10
+      :price => 10
     })
     place_sell_order({
       :secret => seller, 
       :commodity => "wish", 
       :quantity => 50, 
-      :min_price => 10
+      :price => 10
     })
     last_response.status.should eq(200)
     get_from_response("status").should eq("completed")
+  end
+  
+  it "can reject an order if the data is malformed" do
+    pending ("to be implemented")
   end
   
   it "can find all open sell orders" do
