@@ -4,15 +4,20 @@
 require 'spec_helper'
 
 describe "Order routes" do
-  it "can accept new buy orders" do
-    secret = create_account_named("hamster")
-    order_data = { 
-      :secret => secret, 
-      :commodity => "wish", 
-      :quantity => "50",
-      :price => "10"
-    }
-    post "/orders/buy", order_data.to_json
+  let(:secret) { create_account_named("hamster") }
+  let(:order_data) {{ 
+    :secret => secret, 
+    :commodity => "wish", 
+    :quantity => "50",
+    :price => "10"
+  }}
+  
+  describe "for buy orders" do
+    before(:all) do
+      post "/orders/buy", order_data.to_json
+    end
+    
+   it "give a successful response with all the right keys" do
     response_should_be_success_with_keys(
       ["code", 
        "order_id", 
@@ -22,8 +27,21 @@ describe "Order routes" do
        "commodity", 
        "quantity", 
        "price"])
-    get_from_response("status").should eq("open")
+    end
+    
+    it "make the status open if no matching sell order is available" do
+      get_from_response("status").should eq("open")
+    end
+    
+    it "look up the username from the secret" do
+      get_from_response("username").should eq("hamster")
+    end
+    
+    it "confirm that it was a buy order" do
+      get_from_response("type").should eq("buy")
+    end
   end
+
   
   it "can accept new sell orders" do
     pending ("to be implemented")

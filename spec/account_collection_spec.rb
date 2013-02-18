@@ -18,4 +18,9 @@ describe AccountCollection do
     subject.add(account)
     subject.has_user("unicorn").should == true 
   end
+  
+  it "can find an account via the secret" do
+    subject.add(account)
+    subject.find(account.secret).should eq(account)
+  end
 end
