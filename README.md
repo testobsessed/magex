@@ -1,11 +1,11 @@
 magex: The Magical Commodity Exchange Server
 =====
 
-Magex is a trading platform to support programming competitions and classroom exercises. You can use this code base to run your own magical commodity exchange, or you can write a client to participate in our hosted exchange (site to be determined).  
+Magex is a trading platform to support programming competitions and classroom exercises. You can use this code base to run your own magical commodity exchange, or you can write a client to participate in our hosted exchange (site to be determined).
 
 You participate in the exchange by writing a client program against the Magex API to place your buy and sell orders for the commodities listed on the exchange (e.g. wishing wands and flying carpets).
 
-All trades are made in gold pieces. Magex matches buy and sell orders to complete transactions. It also tracks market valuation for commodities traded on the market.
+There is no user interface; all interaction with the system is made through HTTP requests. You can write clients for the system in any programming language that supports GET and POST requests. (If you choose to write your client in Ruby, check out the sample client code included in this repository.) 
 
 The rules of trading are simple:
 
@@ -46,6 +46,8 @@ The commodities listed on the exchange are:
 - Pixie Dust Vials (pixd)
 
 The API for buying and selling is nearly identical. The only difference is the URL you address your POST command to (/orders/buy or /orders/sell). See the place_order.rb sample in client_sample_code for an example.
+
+All trades are made in gold pieces (whole gold pieces only; no fractions). Magex matches buy and sell orders to complete transactions. It also tracks market valuation for commodities traded on the market.
 
 ## Querying Your Account
 
