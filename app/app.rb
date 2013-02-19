@@ -28,6 +28,20 @@ class MagexServer < Sinatra::Base
     @@accounts
   end
   
+  def self.buy_orders
+    @@buy_orders
+  end
+  
+  def self.sell_orders
+    @@sell_orders
+  end
+  
+  def self.reset
+    @@accounts = AccountCollection.new
+    @@buy_orders = OrderCollection.new
+    @@sell_orders = OrderCollection.new
+  end
+  
   def self.place_order(new_order)
     if new_order.action == "buy"
       @@buy_orders.add(new_order)
