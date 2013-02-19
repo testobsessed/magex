@@ -48,4 +48,5 @@ describe Order do
       subject[:status].should eq("open")
     end
   end
+
 end

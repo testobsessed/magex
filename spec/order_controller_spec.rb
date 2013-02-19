@@ -187,11 +187,11 @@ describe "Pending Expectations" do
 
 
   it "can find all completed orders" do
-    pending ("to be implemented")
+    pending ("Needs order matching/transactions first.")
   end
 
   it "can find all completed orders for a given commodity" do
-    pending ("to be implemented")
+    pending ("Needs order matching/transactions first.")
   end
 end
 
