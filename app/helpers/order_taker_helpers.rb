@@ -1,8 +1,6 @@
 # Magex Copyright 2013 Elisabeth Hendrickson
 # See LICENSE.txt for licensing information
 
-require 'order'
-
 def place_order(data)
   begin
     new_order = Order.new(data)
