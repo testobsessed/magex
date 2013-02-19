@@ -6,7 +6,7 @@ require 'spec_helper'
 describe MagexServer do
   # When a user places a buy order, it is automatically matched to a matching sell order
   it "matches new buy orders with existing sell orders" do
-    pending "TBD"
+    
   end
   
   it "matches new sell orders with existing buy orders" do

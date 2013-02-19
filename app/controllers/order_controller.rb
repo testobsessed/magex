@@ -31,21 +31,10 @@ class MagexServer < Sinatra::Base
     data = verify_submitted_data(submitted_data, Order)
     if data.nil?
       response = return_error 400, "Data malformed. Please check your syntax." 
-    else
-      account = @@accounts.find(data["secret"])
-      if !account
-        response = return_error 400, "User not found. Are you sure you submitted your secret correctly?"
-      else
-        response_data = place_order({
-          "username" => account.username,
-          "commodity" => data["commodity"],
-          "quantity" => data["quantity"],
-          "price" => data["price"],
-          "action" => action
-        })
-        response = return_success(response_data)
-      end      
+    else    
+      response = MagexServer.submit_order(action, data)
     end
+    puts "GOT RESPONSE #{response.inspect}"
     deliver_json(response)
   end
 
