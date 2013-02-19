@@ -17,10 +17,10 @@ describe MagexCollection do
     subject.find(item_id).should eq(nil)
   end
   
-  it "can select items from the collection by evaluating a method call" do
-    item_id = subject.add( [1,2,3])
+  it "can select items by criteria" do
+    item_id = subject.add([1,2,3])
     subject.add([1])
-    subject.select(:count, 3).should eq({ item_id => subject.find(item_id)})
+    subject.select({:count => 3, :class => Array}).should eq({ item_id => subject.find(item_id)})
   end
   
   it "has a count" do

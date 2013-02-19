@@ -108,27 +108,24 @@ describe "for queries" do
   end
   
   it "can find all open sell orders" do
-    pending("implement multi select first")
     get "/orders/sell?status=open"
+    response_should_be_success_with_keys ["code", "orders"]
+    response_json = JSON.parse(last_response.body)
+    response_json["orders"].length.should eq(3)
+    response_json["orders"].values.map {|order| order["action"]}.uniq.should eq(["sell"])
+    response_json["orders"].values.map {|order| order["commodity"]}.uniq.should =~ ["flyc", "wish"]
+  end
+
+  it "can find all open sell orders for a given commodity" do
+    get "/orders/sell?status=open&commodity=wish"
     response_should_be_success_with_keys ["code", "orders"]
     response_json = JSON.parse(last_response.body)
     response_json["orders"].length.should eq(2)
     response_json["orders"].values.map {|order| order["action"]}.uniq.should eq(["sell"])
-    response_json["orders"].values.map {|order| order["commodity"]}.should =~ ["flyc", "wish"]
-  end
-
-  it "can find all open sell orders for a given commodity" do
-    pending("implement multi select first")
-    get "/orders/sell?status=open&commodity=wish"
-    response_should_be_success_with_keys ["code", "orders"]
-    response_json = JSON.parse(last_response.body)
-    response_json["orders"].length.should eq(1)
-    response_json["orders"].values.map {|order| order["action"]}.should eq(["sell"])
-    response_json["orders"].values.map {|order| order["commodity"]}.should eq(["wish"])
+    response_json["orders"].values.map {|order| order["commodity"]}.uniq.should eq(["wish"])
   end
 
   it "can find all open sell orders for a given user" do
-    pending("implement multi select first")
     get "/orders/sell?status=open&commodity=flyc&username=hipster"
     response_should_be_success_with_keys ["code", "orders"]
     response_json = JSON.parse(last_response.body)

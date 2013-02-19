@@ -26,13 +26,15 @@ class MagexCollection
     @things.delete(id)
   end
   
-  def select(method, criteria)
-    puts "IN SELECT WITH #{method}, #{criteria}. METHOD is a #{method.class}"
+  def select(criteria)
     return_items = {}
-    @things.each do |key,value| 
-      return_items[key] = value if value.send(method) == criteria
+    @things.each do |key,value|
+      meets_criteria = true
+      criteria.each do |method, criterion|
+        meets_criteria &= (value.send(method) == criterion)
+      end
+      return_items[key] = value if meets_criteria
     end
-    puts "RETURNING WITH #{return_items}"
     return_items
   end
 
