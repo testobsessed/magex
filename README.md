@@ -68,6 +68,16 @@ Returns 0 if the commodity has never traded before.
 
 Note that because this code base is intended for exercises only, it has only cursory security and no data persistence. That means if the server goes down, you will have to restart the simulation from the beginning.
 
+# To Do List
+
+As currently implemented, this project is a little over half done. Work remaining to do:
+- Implement the transactions logic
+- Implement the market commodity valuation and query logic
+- Experiment to determine if the starting amount of gold for a new account should be dependent on current market valuations instead of a fixed amount
+- Finish the samples
+- Put timestamps on orders and transactions
+- Log all activity to one or more files that can be downloaded from a server, e.g. activity CSV, for analysis purposes - valuations, spikes, etc.
+
 # License
 
 The Magex code base and all related artifacts are copyrighted materials licensed under the BSD 2-clause license. See LICENSE.txt for details.
