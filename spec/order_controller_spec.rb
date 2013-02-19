@@ -104,6 +104,7 @@ describe "for queries" do
     post "/orders/sell", @order_data.merge({:commodity => "wish", :secret => @user2 }).to_json
     post "/orders/sell", @order_data.merge({:commodity => "flyc", :secret => @user2 }).to_json
     post "/orders/buy", @order_data.merge({:commodity => "pixd", :secret => @user1 }).to_json
+    post "/orders/buy", @order_data.merge({:commodity => "pixd", :secret => @user2 }).to_json
     post "/orders/buy", @order_data.merge({:commodity => "mbns", :secret => @user2 }).to_json
   end
   
@@ -133,6 +134,32 @@ describe "for queries" do
     response_json["orders"].values.map {|order| order["action"]}.should eq(["sell"])
     response_json["orders"].values.map {|order| order["commodity"]}.should eq(["flyc"])
   end
+  it "can find all open buy orders" do
+    get "/orders/buy?status=open"
+    response_should_be_success_with_keys ["code", "orders"]
+    response_json = JSON.parse(last_response.body)
+    response_json["orders"].length.should eq(3)
+    response_json["orders"].values.map {|order| order["action"]}.uniq.should eq(["buy"])
+    response_json["orders"].values.map {|order| order["commodity"]}.uniq.should =~ ["pixd", "mbns"]
+  end
+
+  it "can find all open buy orders for a given commodity" do
+    get "/orders/buy?status=open&commodity=pixd"
+    response_should_be_success_with_keys ["code", "orders"]
+    response_json = JSON.parse(last_response.body)
+    response_json["orders"].length.should eq(2)
+    response_json["orders"].values.map {|order| order["action"]}.uniq.should eq(["buy"])
+    response_json["orders"].values.map {|order| order["commodity"]}.uniq.should eq(["pixd"])
+  end
+
+  it "can find all open sell orders for a given user" do
+    get "/orders/buy?status=open&commodity=pixd&username=hipster"
+    response_should_be_success_with_keys ["code", "orders"]
+    response_json = JSON.parse(last_response.body)
+    response_json["orders"].length.should eq(1)
+    response_json["orders"].values.map {|order| order["action"]}.should eq(["buy"])
+    response_json["orders"].values.map {|order| order["commodity"]}.should eq(["pixd"])
+  end
 end
 
 describe "Pending Expectations" do
@@ -158,18 +185,6 @@ describe "Pending Expectations" do
   end
 
 
-
-  it "can find all open buy orders" do
-    pending ("to be implemented")
-  end
-
-  it "can find all open buy orders for a given commodity" do
-    pending ("to be implemented")
-  end
-
-  it "can find all open buy orders for a given user" do
-    pending ("to be implemented")
-  end
 
   it "can find all completed orders" do
     pending ("to be implemented")

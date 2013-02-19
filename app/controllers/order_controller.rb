@@ -10,6 +10,15 @@ class MagexServer < Sinatra::Base
     deliver_json(response)
   end
   
+  get '/orders/buy' do
+    # TODO: this is essentially a duplicate of /orders/sell. Refactor
+    orders_hash = MagexServer.buy_orders.select(params)
+    orders_hash.each { |id, order| orders_hash[id] = order.data }
+    data = {:orders => orders_hash }
+    response = return_success data
+    deliver_json(response)
+  end
+  
   post '/orders/buy' do
     submit_order_post("buy", request.body.read)
   end
