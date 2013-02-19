@@ -24,12 +24,12 @@ def create_account_named(username)
 end
 
 def get_from_response(key)
-  response = JSON.parse(last_response.body)
+  response = safe_parse(last_response.body)
   response[key]
 end
 
 def response_should_have_keys(key_array)
-  response = JSON.parse(last_response.body)
+  response = safe_parse(last_response.body)
   response.keys.should =~ key_array
 end
 
@@ -42,3 +42,14 @@ def response_should_be_error(code)
   last_response.status.should eq(code)
   response_should_have_keys(["code", "message"])
 end
+
+def safe_parse(text)
+  begin
+    response = JSON.parse(last_response.body)
+  rescue Exception => e
+    puts "ERROR while parsing response. Something went dreadfully wrong with the last response."
+    response = {}
+  end
+  response
+end
+

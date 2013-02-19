@@ -9,7 +9,7 @@ describe Order do
     "commodity" => "wish",
     "quantity" => 50,
     "price" => 5,
-    "action" => "buy"
+    "action" => "sell"
   }}
   let(:order) { Order.new(order_data) }
   
@@ -41,7 +41,7 @@ describe Order do
     end
     
     it "reflects the action (buy or sell)" do
-      subject[:action].should eq("buy")
+      subject[:action].should eq("sell")
     end
     
     it "is open" do

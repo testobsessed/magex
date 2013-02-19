@@ -3,7 +3,15 @@
 
 class MagexServer < Sinatra::Base
   post '/orders/buy' do
-    data = verify_submitted_data(request.body.read, Order)
+    submit_order_post("buy", request.body.read)
+  end
+  
+  post '/orders/sell' do
+    submit_order_post("sell", request.body.read)
+  end
+  
+  def submit_order_post(action, submitted_data)
+    data = verify_submitted_data(submitted_data, Order)
     if !data
       response = respond_with_error 400, "Data malformed. Please check your syntax." 
     else
@@ -16,16 +24,12 @@ class MagexServer < Sinatra::Base
           "commodity" => data["commodity"],
           "quantity" => data["quantity"],
           "price" => data["price"],
-          "action" => "buy"
+          "action" => action
         })
         response = return_success(response_data)
       end      
     end
     deliver_json(response)
   end
-  
-  # get '/account/status/:secret' do
-  #   status response[:code]
-  #   response.to_json
-  # end
+
 end

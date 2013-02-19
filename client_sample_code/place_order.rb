@@ -28,6 +28,8 @@ order_data_as_json = {
 
 order = magex_post("/orders/buy", order_data_as_json)
 
+order = magex_post("/orders/sell", order_data_as_json)
+
 # Once placed, orders are not secure. You can look them up without
 # your secret, just with the order id.
 
