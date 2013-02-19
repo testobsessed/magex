@@ -9,7 +9,7 @@ describe Order do
     "commodity" => "wish",
     "quantity" => 50,
     "price" => 5,
-    "type" => "buy"
+    "action" => "buy"
   }}
   let(:order) { Order.new(order_data) }
   
@@ -20,7 +20,7 @@ describe Order do
     it { should include(:commodity) }
     it { should include{:quantity} }
     it { should include{:price} }
-    it { should include{:type} }
+    it { should include{:action} }
   end
   
   describe "has the right values" do
@@ -28,7 +28,7 @@ describe Order do
       subject[:username].should eq("cinderella")
     end
     
-    it "reflects the requested commodity type" do
+    it "reflects the requested commodity" do
       subject[:commodity].should eq("wish")
     end
     
@@ -40,8 +40,8 @@ describe Order do
       subject[:price].should eq(5)
     end
     
-    it "reflects the type of offer" do
-      subject[:type].should eq("buy")
+    it "reflects the action (buy or sell)" do
+      subject[:action].should eq("buy")
     end
     
     it "is open" do

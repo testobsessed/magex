@@ -21,7 +21,7 @@ describe "Order routes" do
     response_should_be_success_with_keys(
       ["code", 
        "order_id", 
-       "type", 
+       "action", 
        "status", 
        "username", 
        "commodity", 
@@ -38,7 +38,7 @@ describe "Order routes" do
     end
     
     it "confirm that it was a buy order" do
-      get_from_response("type").should eq("buy")
+      get_from_response("action").should eq("buy")
     end
   end
 
@@ -54,7 +54,7 @@ describe "Order routes" do
     }
     post "/orders/sell", order_data.to_json
     last_response.status.should eq(200)
-    response_should_be_success_with_keys(["order_id", "type", "status", "secret", "commodity", "quantity", "min_price"])
+    response_should_be_success_with_keys(["order_id", "action", "status", "secret", "commodity", "quantity", "min_price"])
     get_from_response("status").should eq("open")
   end
   

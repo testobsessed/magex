@@ -10,6 +10,7 @@ class Order
   attr :quantity
   attr :price
   attr :status
+  attr :action
   
   include JSONChecker  
   @@input_json_shape = {
@@ -24,7 +25,7 @@ class Order
     @commodity = data["commodity"]
     @quantity = data["quantity"]
     @price = data["price"]
-    @type = data["type"]
+    @action = data["action"]
     @status = "open"
   end
   
@@ -34,7 +35,7 @@ class Order
       :commodity => @commodity,
       :quantity => @quantity,
       :price => @price,
-      :type => @type,
+      :action => @action,
       :status => @status
     }
   end

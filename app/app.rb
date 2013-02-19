@@ -21,10 +21,19 @@ class MagexServer < Sinatra::Base
   before do
     @@accounts ||= AccountCollection.new
     @@buy_orders ||= OrderCollection.new
+    @@sell_orders ||= OrderCollection.new
   end
   
   def self.accounts
     @@accounts
+  end
+  
+  def self.place_order(new_order)
+    if new_order.action == "buy"
+      @@buy_orders.add(new_order)
+    elsif new_order.action == "sell"
+      @@sell_orders.add(new_order)
+    end
   end
   
   get '/' do

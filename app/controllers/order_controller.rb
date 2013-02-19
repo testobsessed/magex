@@ -4,20 +4,22 @@
 class MagexServer < Sinatra::Base
   post '/orders/buy' do
     data = verify_submitted_data(request.body.read, Order)
-    if data
-      account = @@accounts.find(data["secret"])
-      if account
-        data["username"] = account.username
-        data["type"] = "buy"
-        new_order = Order.new(data)
-        id = @@buy_orders.add(new_order)
-        response_data = new_order.data.merge({:order_id => id})
-        response = return_success(response_data)
-      else
-        response = respond_with_error 400, "User not found. Are you sure you submitted your secret correctly?"
-      end
+    if !data
+      response = respond_with_error 400, "Data malformed. Please check your syntax." 
     else
-      response = respond_with_error 400, "Data malformed. Please check your syntax."
+      account = @@accounts.find(data["secret"])
+      if !account
+        response = respond_with_error 400, "User not found. Are you sure you submitted your secret correctly?"
+      else
+        response_data = place_order({
+          "username" => account.username,
+          "commodity" => data["commodity"],
+          "quantity" => data["quantity"],
+          "price" => data["price"],
+          "action" => "buy"
+        })
+        response = return_success(response_data)
+      end      
     end
     deliver_json(response)
   end
