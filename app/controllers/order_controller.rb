@@ -28,13 +28,21 @@ class MagexServer < Sinatra::Base
   end
   
   def submit_order_post(action, submitted_data)
-    data = verify_submitted_data(submitted_data, Order)
-    if data.nil?
+    order_data = verify_submitted_data(submitted_data, Order)
+    if order_data.nil?
       response = return_error 400, "Data malformed. Please check your syntax." 
-    else    
-      response = MagexServer.submit_order(action, data)
+    else
+      order_data.merge!({ "action" => action })
+      username = MagexServer.get_username_from_secret(order_data.delete("secret"))
+      if !username
+        response = return_error 400, "User not found. Are you sure you submitted your secret correctly?"
+      else
+        order_data.merge!({ "username" => username })
+        order = Order.new(order_data)
+        MagexServer.submit_order(order)
+        response = return_success(order.data)
+      end
     end
-    puts "GOT RESPONSE #{response.inspect}"
     deliver_json(response)
   end
 

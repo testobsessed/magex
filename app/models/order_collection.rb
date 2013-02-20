@@ -4,5 +4,7 @@
 require 'magex_collection'
 
 class OrderCollection < MagexCollection
-  
+  def add(order)
+    @things[order.order_id] = order
+  end
 end

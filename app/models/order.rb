@@ -11,6 +11,7 @@ class Order
   attr :price
   attr :status
   attr :action
+  attr :order_id
   
   include JSONChecker  
   @@input_json_shape = {
@@ -27,6 +28,7 @@ class Order
     @price = data["price"]
     @action = data["action"]
     @status = "open"
+    @order_id = MagexServer.next_id
   end
   
   def data
@@ -36,7 +38,8 @@ class Order
       :quantity => @quantity,
       :price => @price,
       :action => @action,
-      :status => @status
+      :status => @status,
+      :order_id => @order_id
     }
   end
 end
