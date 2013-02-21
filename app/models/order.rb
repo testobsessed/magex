@@ -31,6 +31,14 @@ class Order
     @order_id = MagexServer.next_id
   end
   
+  def buy?
+    @action == "buy"
+  end
+  
+  def sell?
+    @action == "sell"
+  end
+  
   def data
     {
       :username => @username,

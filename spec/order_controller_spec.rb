@@ -96,16 +96,20 @@ describe "for queries" do
     MagexServer.reset
     @user1 = create_account_named("hamster")
     @user2 = create_account_named("hipster")
-    @order_data = { 
+    @buy_order_data = { 
         :quantity => "50",
         :price => "10"
     }
-    post "/orders/sell", @order_data.merge({:commodity => "wish", :secret => @user1 }).to_json
-    post "/orders/sell", @order_data.merge({:commodity => "wish", :secret => @user2 }).to_json
-    post "/orders/sell", @order_data.merge({:commodity => "flyc", :secret => @user2 }).to_json
-    post "/orders/buy", @order_data.merge({:commodity => "pixd", :secret => @user1 }).to_json
-    post "/orders/buy", @order_data.merge({:commodity => "pixd", :secret => @user2 }).to_json
-    post "/orders/buy", @order_data.merge({:commodity => "mbns", :secret => @user2 }).to_json
+    @sell_order_data = { 
+        :quantity => "50",
+        :price => "50"
+    }
+    post "/orders/sell", @sell_order_data.merge({:commodity => "wish", :secret => @user1 }).to_json
+    post "/orders/sell", @sell_order_data.merge({:commodity => "wish", :secret => @user2 }).to_json
+    post "/orders/sell", @sell_order_data.merge({:commodity => "flyc", :secret => @user2 }).to_json
+    post "/orders/buy", @buy_order_data.merge({:commodity => "pixd", :secret => @user1 }).to_json
+    post "/orders/buy", @buy_order_data.merge({:commodity => "pixd", :secret => @user2 }).to_json
+    post "/orders/buy", @buy_order_data.merge({:commodity => "mbns", :secret => @user2 }).to_json
   end
   
   it "can find all open sell orders" do

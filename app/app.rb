@@ -46,14 +46,41 @@ class MagexServer < Sinatra::Base
   end
   
   def self.submit_order(order)
-    post_order(order)
+    if match_available?(order)
+      do_transaction(order)
+    else  
+      post_order(order)
+    end
+  end
+  
+  def self.do_transaction(order)
+    #raise "make all the tests fail"
+  end
+  
+  def self.match_available?(order)
+    if order.sell?
+      matches = buyers(order)
+    else
+      matches = sellers(order)
+    end
+    return matches.count > 0
+  end
+  
+  def self.buyers(order)
+    potential_buyers = buy_orders.price_at_least(order.price)
+    potential_buyers.sort! { |a, b| [-a.price, a.order_id] <=> [-b.price, b.order_id] }
+  end
+  
+  def self.sellers(order)
+    potential_sellers = sell_orders.price_at_most(order.price)
+    potential_sellers.sort! { |a, b| [a.price, a.order_id] <=> [b.price, b.order_id] }
   end
   
   def self.post_order(order)
-    if order.action == "buy"
-      @@buy_orders.add(order)
-    elsif order.action == "sell"
-      @@sell_orders.add(order)
+    if order.buy?
+      buy_orders.add(order)
+    elsif order.sell?
+      sell_orders.add(order)
     end
   end
   

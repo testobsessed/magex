@@ -7,4 +7,20 @@ class OrderCollection < MagexCollection
   def add(order)
     @things[order.order_id] = order
   end
+  
+  def price_at_least(number)
+    return_items = []
+    @things.each do |key,value|      
+      return_items.push(value) if value.price >= number
+    end
+    return_items    
+  end
+  
+  def price_at_most(number)
+    return_items = []
+    @things.each do |key,value|      
+      return_items.push(value) if value.price <= number
+    end
+    return_items    
+  end
 end
