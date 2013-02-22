@@ -27,6 +27,40 @@ describe Account do
     account.secret.should eq(account.data[:secret])
   end
   
+  describe "balance manipulation" do
+    
+    it "can add to a balance" do
+      result = account.add_to_balance(:wish, 50)
+      account.data[:balances][:wish].should eq 50
+      result.should eq true
+    end
+    
+    it "can remove from a balance" do
+      result = account.remove_from_balance(:gold, 1000)
+      account.data[:balances][:gold].should eq 0
+      result.should eq true
+    end
+    
+    it "cannot remove more than an account has" do
+      result = account.remove_from_balance(:gold, 1001)
+      account.data[:balances][:gold].should eq 1000
+      result.should eq false
+    end
+    
+    it "cannot remove a negative amount" do
+      result = account.remove_from_balance(:gold, -5)
+      account.data[:balances][:gold].should eq 1000
+      result.should eq false
+    end
+    
+    it "cannot add a negative amount" do
+      result = account.add_to_balance(:gold, -10)
+      account.data[:balances][:gold].should eq 1000
+      result.should eq false
+    end
+
+  end
+  
   describe "balances" do
     subject { account.data[:balances] }
     it { should include(:gold) }

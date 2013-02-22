@@ -171,7 +171,7 @@ describe "Pending Expectations" do
     pending ("to be implemented")
     buyer = create_account_named("buyer")
     seller = create_account_named("seller")
-    MagexServer.add_commodity_to_account(seller, "wish", 50)
+    MagexServer.add_to_account(seller, "wish", 50)
     place_buy_order({
       :secret => buyer, 
       :commodity => "wish", 

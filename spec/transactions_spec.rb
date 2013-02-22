@@ -17,11 +17,12 @@ describe MagexServer do
   let(:buy_order_10g) { Order.new(order_data.merge({"action" => "buy", "price" => 10})) }
   let(:sell_order_15g) { Order.new(order_data.merge({"action" => "sell", "price" => 15})) }
   let(:buy_order_15g) { Order.new(order_data.merge({"action" => "buy", "price" => 15})) }
-  
+  let(:seller)  { Account.new({ "username" => "yakster" }) }
+
   before(:each) do
     MagexServer.reset
   end
-  # When a user places a buy order, it is automatically matched to a matching sell order
+
   it "matches new buy orders with existing sell orders" do
     MagexServer.post_order(sell_order_5g)
     MagexServer.match_available?(buy_order_5g).should eq true
@@ -46,6 +47,29 @@ describe MagexServer do
     MagexServer.post_order(sell_order_5gx)
     MagexServer.post_order(sell_order_10g)
     MagexServer.sellers(buy_order_15g).should eq [sell_order_5g, sell_order_5gx, sell_order_10g, sell_order_15g]
+  end
+  
+  it "can transfer balances into a user account" do
+    seller.balances[:wish].should eq 0
+    result = MagexServer.add_to_account(seller, "wish", 50)
+    seller.balances[:wish].should eq 50
+    result.should eq true
+  end
+  
+  it "can transfer balances out of a user account" do
+    MagexServer.add_to_account(seller, "wish", 50)
+    seller.balances[:wish].should eq 50
+    result = MagexServer.remove_from_account(seller, "wish", 50)
+    seller.balances[:wish].should eq 0
+    result.should eq true
+  end
+  
+  it "cannot remove more than the account has" do
+    MagexServer.add_to_account(seller, "wish", 50)
+    seller.balances[:wish].should eq 50
+    result = MagexServer.remove_from_account(seller, "wish", 100)
+    seller.balances[:wish].should eq 50
+    result.should eq false
   end
   
   it "can complete a transaction" do
