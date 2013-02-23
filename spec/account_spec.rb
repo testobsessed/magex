@@ -47,13 +47,13 @@ describe Account do
       result.should eq false
     end
     
-    it "cannot remove a negative amount" do
+    it "cannot remove a negative quantity" do
       result = account.remove_from_balance(:gold, -5)
       account.data[:balances][:gold].should eq 1000
       result.should eq false
     end
     
-    it "cannot add a negative amount" do
+    it "cannot add a negative quantity" do
       result = account.add_to_balance(:gold, -10)
       account.data[:balances][:gold].should eq 1000
       result.should eq false

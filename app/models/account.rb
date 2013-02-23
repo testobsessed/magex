@@ -33,15 +33,15 @@ class Account
     }
   end
   
-  def add_to_balance(commodity, amount)
-    return false if (amount < 0)
-    data[:balances][commodity] += amount
+  def add_to_balance(commodity, quantity)
+    return false if (quantity < 0)
+    data[:balances][commodity] += quantity
     true
   end
   
-  def remove_from_balance(commodity, amount)
-    return false if (amount < 0 || amount > data[:balances][commodity])
-    data[:balances][commodity] -= amount
+  def remove_from_balance(commodity, quantity)
+    return false if (quantity < 0 || quantity > data[:balances][commodity])
+    data[:balances][commodity] -= quantity
     true
   end
 end

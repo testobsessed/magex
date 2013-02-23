@@ -1,0 +1,13 @@
+- Finish escrow implementation
+- Transactions: split orders functionality - 
+- Transactions: don't match order if funding not available
+- Transactions and escrow: immediately place order in escrow status when matched and begin escrow collection process
+- Matching - make sure it only offers up "open" orders - not escrow.
+- Transactions and escrow: if escrow collection fails - refund amounts escrowed and reopen the orders
+- Change starting portfolio balances
+- Implement market valuation and stats to support more intelligent trading and dashboard view
+- Implement home page dashboard
+- Implement home page account registration
+- Write up "getting started info"
+- Make account use json checker
+- Revisit strings v. symbols - JSON comes in as strings, but should immediately become symbols

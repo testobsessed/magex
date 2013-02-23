@@ -53,14 +53,14 @@ class MagexServer < Sinatra::Base
     end
   end
   
-  def self.add_to_account(user, commodity, amount)
+  def self.add_to_account(user, commodity, quantity)
     commodity = commodity.to_sym if commodity.class == String
-    user.add_to_balance(commodity, amount)
+    user.add_to_balance(commodity, quantity)
   end
   
-  def self.remove_from_account(user, commodity, amount)
+  def self.remove_from_account(user, commodity, quantity)
     commodity = commodity.to_sym if commodity.class == String
-    user.remove_from_balance(commodity, amount)
+    user.remove_from_balance(commodity, quantity)
   end
   
   def self.do_transaction(order)

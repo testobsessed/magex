@@ -72,6 +72,14 @@ describe MagexServer do
     result.should eq false
   end
   
+  it "can put balances into escrow" do
+    pending "Finish the bits"
+    MagexServer.add_to_account(seller, "wish", 50)
+    MagexServer.escrow(seller, order, "wish", 25)
+    MagexServer.escrow_accounts(seller).balances[:wish].should eq 25
+    seller.data[:balances][:wish].should eq 25
+  end
+  
   it "can complete a transaction" do
     pending "Finish the bits"
     MagexServer.post_order(sell_order)
