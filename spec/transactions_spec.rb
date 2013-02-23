@@ -4,20 +4,27 @@
 require 'spec_helper'
 
 describe MagexServer do
-  let(:order_data) {{
-    "username" => "irrelevant",
+  let(:seller)  { MagexServer.register("yakster") }
+  let(:buyer) { MagexServer.register("hamster") }
+  let(:sell_order_data) {{
+    "username" => seller.username,
     "commodity" => "wish",
     "quantity" => 50
   }}
-  let(:sell_order_5g) { Order.new(order_data.merge({"action" => "sell", "price" => 5})) }
-  let(:buy_order_5g) { Order.new(order_data.merge({"action" => "buy", "price" => 5})) }
-  let(:sell_order_5gx) { Order.new(order_data.merge({"action" => "sell", "price" => 5})) }
-  let(:buy_order_5gx) { Order.new(order_data.merge({"action" => "buy", "price" => 5})) }
-  let(:sell_order_10g) { Order.new(order_data.merge({"action" => "sell", "price" => 10})) }
-  let(:buy_order_10g) { Order.new(order_data.merge({"action" => "buy", "price" => 10})) }
-  let(:sell_order_15g) { Order.new(order_data.merge({"action" => "sell", "price" => 15})) }
-  let(:buy_order_15g) { Order.new(order_data.merge({"action" => "buy", "price" => 15})) }
-  let(:seller)  { Account.new({ "username" => "yakster" }) }
+  let(:buy_order_data) {{
+    "username" => buyer.username,
+    "commodity" => "wish",
+    "quantity" => 50
+  }}
+  let(:sell_order_5g) { Order.new(sell_order_data.merge({"action" => "sell", "price" => 5})) }
+  let(:buy_order_5g) { Order.new(buy_order_data.merge({"action" => "buy", "price" => 5})) }
+  let(:sell_order_5gx) { Order.new(sell_order_data.merge({"action" => "sell", "price" => 5})) }
+  let(:buy_order_5gx) { Order.new(buy_order_data.merge({"action" => "buy", "price" => 5})) }
+  let(:sell_order_10g) { Order.new(sell_order_data.merge({"action" => "sell", "price" => 10})) }
+  let(:buy_order_10g) { Order.new(buy_order_data.merge({"action" => "buy", "price" => 10})) }
+  let(:sell_order_15g) { Order.new(sell_order_data.merge({"action" => "sell", "price" => 15})) }
+  let(:buy_order_15g) { Order.new(buy_order_data.merge({"action" => "buy", "price" => 15})) }
+  
 
   before(:each) do
     MagexServer.reset
@@ -72,22 +79,13 @@ describe MagexServer do
     result.should eq false
   end
   
-  it "can put balances into escrow" do
-    pending "Finish the bits"
-    MagexServer.add_to_account(seller, "wish", 50)
-    MagexServer.escrow(seller, order, "wish", 25)
-    MagexServer.escrow_accounts(seller).balances[:wish].should eq 25
-    seller.data[:balances][:wish].should eq 25
-  end
-  
-  it "can complete a transaction" do
-    pending "Finish the bits"
-    MagexServer.post_order(sell_order)
-    sell_order.status.should eq "open"
-    MagexServer.submit_order(buy_order)
-    buy_order.status.should eq "completed"
-    sell_order.status.should eq "completed"
-    MagexServer.transactions.length.should eq 1
+  it "can match and complete a transaction" do
+    MagexServer.post_order(sell_order_5g)
+    sell_order_5g.status.should eq "open"
+    MagexServer.submit_order(buy_order_5g)
+    buy_order_5g.status.should eq "completed"
+    sell_order_5g.status.should eq "completed"
+    MagexServer.transactions.count.should eq 1
   end
   
   it "splits an order if it can be partially completed" do

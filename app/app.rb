@@ -30,6 +30,10 @@ class MagexServer < Sinatra::Base
     @@sell_orders ||= OrderCollection.new
   end
   
+  def self.transactions
+    @@transactions ||=MagexCollection.new
+  end
+  
   def self.next_id
     @@id_counter ||= 0
     @@id_counter += 1
@@ -69,16 +73,35 @@ class MagexServer < Sinatra::Base
   end
   
   def self.do_transaction(order)
-    #raise "make all the tests fail"
+    # find the matching order
+    if order.action == "sell"
+      sell_order = order
+      buy_order = get_matches(order).first
+    else
+      sell_order = get_matches(order).first
+      buy_order = order
+    end
+    # split into separate orders if needed and reset the matches
+    # given the matching orders that fit together perfectly...
+    # create an escrow account
+    escrow = EscrowAccount.new(buy_order, sell_order)
+    escrow.collect_buyer_funds
+    escrow.collect_seller_goods
+    result_data = escrow.complete_transaction
+    transactions.add(result_data)
   end
   
-  def self.match_available?(order)
+  def self.get_matches(order)
     if order.sell?
       matches = buyers(order)
     else
       matches = sellers(order)
     end
-    return matches.count > 0
+    matches
+  end
+  
+  def self.match_available?(order)
+    get_matches(order).count > 0
   end
   
   def self.buyers(order)

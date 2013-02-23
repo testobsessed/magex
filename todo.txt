@@ -1,4 +1,5 @@
-- Finish escrow implementation
+- Transactions: complete a transaction
+- Transactions: make sure that if the transaction cannot complete that everything goes back the way it was
 - Transactions: split orders functionality - 
 - Transactions: don't match order if funding not available
 - Transactions and escrow: immediately place order in escrow status when matched and begin escrow collection process

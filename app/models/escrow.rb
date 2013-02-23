@@ -39,6 +39,13 @@ class EscrowAccount
     @seller.add_to_balance(:gold, @escrow_gold)
     @buy_order.completed
     @sell_order.completed
+    {
+      :buyer => @buyer.username,
+      :seller => @seller.username,
+      :commodity => @escrow_commodity,
+      :quantity => @escrow_commodity_quantity,
+      :price => @escrow_gold
+    }
   end
   
   def buyer_funded?

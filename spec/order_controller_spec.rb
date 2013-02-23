@@ -164,32 +164,10 @@ describe "for queries" do
     response_json["orders"].values.map {|order| order["action"]}.should eq(["buy"])
     response_json["orders"].values.map {|order| order["commodity"]}.should eq(["pixd"])
   end
+  
 end
 
 describe "Pending Expectations" do
-  it "can match a new sell with an existing buy order" do
-    pending ("to be implemented")
-    buyer = create_account_named("buyer")
-    seller = create_account_named("seller")
-    MagexServer.add_to_account(seller, "wish", 50)
-    place_buy_order({
-      :secret => buyer, 
-      :commodity => "wish", 
-      :quantity => 50, 
-      :price => 10
-    })
-    place_sell_order({
-      :secret => seller, 
-      :commodity => "wish", 
-      :quantity => 50, 
-      :price => 10
-    })
-    last_response.status.should eq(200)
-    get_from_response("status").should eq("completed")
-  end
-
-
-
   it "can find all completed orders" do
     pending ("Needs order matching/transactions first.")
   end
