@@ -4,6 +4,9 @@
 require 'spec_helper'
 
 describe MagexServer do
+  
+  before(:each) { MagexServer.reset }
+  
   it "has accounts" do
     MagexServer.accounts.class.should eq(AccountCollection)
   end

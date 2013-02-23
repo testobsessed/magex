@@ -39,6 +39,13 @@ class MagexServer < Sinatra::Base
     @@accounts = AccountCollection.new
     @@buy_orders = OrderCollection.new
     @@sell_orders = OrderCollection.new
+    @@id_counter = 0
+  end
+  
+  def self.register(name)
+    new_account = Account.new({ "username" => name })
+    accounts.add(new_account)
+    new_account
   end
   
   def self.get_username_from_secret(secret)
@@ -54,13 +61,11 @@ class MagexServer < Sinatra::Base
   end
   
   def self.add_to_account(user, commodity, quantity)
-    commodity = commodity.to_sym if commodity.class == String
-    user.add_to_balance(commodity, quantity)
+    user.add_to_balance(commodity.to_sym, quantity)
   end
   
   def self.remove_from_account(user, commodity, quantity)
-    commodity = commodity.to_sym if commodity.class == String
-    user.remove_from_balance(commodity, quantity)
+    user.remove_from_balance(commodity.to_sym, quantity)
   end
   
   def self.do_transaction(order)

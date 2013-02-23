@@ -17,4 +17,8 @@ class AccountCollection < MagexCollection
     @things.map{|key, value| value.data[:username]}.count(name) > 0
   end
   
+  def find_from_username(username)
+    select({:username => username}).values.first
+  end
+  
 end

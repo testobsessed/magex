@@ -14,8 +14,7 @@ class MagexServer < Sinatra::Base
     elsif MagexServer.accounts.has_user(username)
       response = return_error 409, "Username already taken. Please try to register again."
     else
-      new_account = Account.new(data)
-      @@accounts.add(new_account)
+      new_account = MagexServer.register(username)
       response = return_success new_account.data
     end
     deliver_json(response)

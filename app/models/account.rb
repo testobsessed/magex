@@ -40,7 +40,7 @@ class Account
   end
   
   def remove_from_balance(commodity, quantity)
-    return false if (quantity < 0 || quantity > data[:balances][commodity])
+    return false if (quantity < 0 || quantity > @balances[commodity])
     data[:balances][commodity] -= quantity
     true
   end

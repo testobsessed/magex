@@ -39,6 +39,14 @@ class Order
     @action == "sell"
   end
   
+  def in_escrow
+    @status = "escrow"
+  end
+  
+  def completed
+    @status = "completed"
+  end
+  
   def data
     {
       :username => @username,
