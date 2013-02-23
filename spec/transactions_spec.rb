@@ -9,21 +9,23 @@ describe MagexServer do
   let(:sell_order_data) {{
     "username" => seller.username,
     "commodity" => "wish",
-    "quantity" => 50
+    "quantity" => 50,
+    "action" => "sell"
   }}
   let(:buy_order_data) {{
     "username" => buyer.username,
     "commodity" => "wish",
-    "quantity" => 50
+    "quantity" => 50,
+    "action" => "buy"
   }}
-  let(:sell_order_5g) { Order.new(sell_order_data.merge({"action" => "sell", "price" => 5})) }
-  let(:buy_order_5g) { Order.new(buy_order_data.merge({"action" => "buy", "price" => 5})) }
-  let(:sell_order_5gx) { Order.new(sell_order_data.merge({"action" => "sell", "price" => 5})) }
-  let(:buy_order_5gx) { Order.new(buy_order_data.merge({"action" => "buy", "price" => 5})) }
-  let(:sell_order_10g) { Order.new(sell_order_data.merge({"action" => "sell", "price" => 10})) }
-  let(:buy_order_10g) { Order.new(buy_order_data.merge({"action" => "buy", "price" => 10})) }
-  let(:sell_order_15g) { Order.new(sell_order_data.merge({"action" => "sell", "price" => 15})) }
-  let(:buy_order_15g) { Order.new(buy_order_data.merge({"action" => "buy", "price" => 15})) }
+  let(:sell_order_5g) { Order.new(sell_order_data.merge({"price" => 5})) }
+  let(:buy_order_5g) { Order.new(buy_order_data.merge({"price" => 5})) }
+  let(:sell_order_5gx) { Order.new(sell_order_data.merge({"price" => 5})) }
+  let(:buy_order_5gx) { Order.new(buy_order_data.merge({"price" => 5})) }
+  let(:sell_order_10g) { Order.new(sell_order_data.merge({"price" => 10})) }
+  let(:buy_order_10g) { Order.new(buy_order_data.merge({"price" => 10})) }
+  let(:sell_order_15g) { Order.new(sell_order_data.merge({"price" => 15})) }
+  let(:buy_order_15g) { Order.new(buy_order_data.merge({"price" => 15})) }
   
 
   before(:each) do
@@ -93,10 +95,26 @@ describe MagexServer do
   end
   
   it "completes the transaction with the best offer available if there are multiple" do
-    pending "TBD"
+    MagexServer.post_order(sell_order_5g)
+    MagexServer.post_order(sell_order_10g)
+    MagexServer.post_order(sell_order_15g)
+    MagexServer.submit_order(buy_order_15g)
+    MagexServer.transactions.count.should eq 1
+    MagexServer.transactions.values.first[:price].should eq 5
   end
   
   it "completes the transaction with the earliest available if the offers are all the same" do
-    pending "TBD"
+    MagexServer.register("early")
+    early_order = Order.new({
+      "username" => "early",
+      "commodity" => "wish",
+      "quantity" => 50,
+      "action" => "sell",
+      "price" => 5
+    })
+    MagexServer.post_order(early_order)
+    MagexServer.post_order(sell_order_5g)
+    MagexServer.submit_order(buy_order_5g)
+    MagexServer.transactions.values.first[:seller].should eq "early"
   end
 end

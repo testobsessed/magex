@@ -26,6 +26,10 @@ class MagexCollection
     @things.delete(id)
   end
   
+  def values
+    @things.values
+  end
+  
   def select(criteria)
     return_items = {}
     @things.each do |key,value|

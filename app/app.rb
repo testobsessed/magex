@@ -43,6 +43,7 @@ class MagexServer < Sinatra::Base
     @@accounts = AccountCollection.new
     @@buy_orders = OrderCollection.new
     @@sell_orders = OrderCollection.new
+    @@transactions = MagexCollection.new
     @@id_counter = 0
   end
   
@@ -72,19 +73,21 @@ class MagexServer < Sinatra::Base
     user.remove_from_balance(commodity.to_sym, quantity)
   end
   
-  def self.do_transaction(order)
-    # find the matching order
-    if order.action == "sell"
+  def self.match_order(order)
+    # todo: split into separate orders if needed and reset the matches
+    if order.sell?
       sell_order = order
       buy_order = get_matches(order).first
     else
       sell_order = get_matches(order).first
       buy_order = order
     end
-    # split into separate orders if needed and reset the matches
-    # given the matching orders that fit together perfectly...
-    # create an escrow account
-    escrow = EscrowAccount.new(buy_order, sell_order)
+    { :buy_order => buy_order, :sell_order => sell_order }
+  end
+  
+  def self.do_transaction(order)
+    matched_orders = match_order(order)
+    escrow = EscrowAccount.new(matched_orders[:buy_order], matched_orders[:sell_order])
     escrow.collect_buyer_funds
     escrow.collect_seller_goods
     result_data = escrow.complete_transaction

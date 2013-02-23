@@ -44,7 +44,7 @@ class EscrowAccount
       :seller => @seller.username,
       :commodity => @escrow_commodity,
       :quantity => @escrow_commodity_quantity,
-      :price => @escrow_gold
+      :price => @sell_order.price
     }
   end
   
