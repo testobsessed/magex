@@ -3,18 +3,15 @@
 
 class MagexServer < Sinatra::Base
   get '/orders/sell' do
-    orders_hash = MagexServer.sell_orders.select(params)
-    orders_hash.each { |id, order| orders_hash[id] = order.data }
-    data = {:orders => orders_hash }
+    orders_collection = MagexServer.sell_orders.select(params)
+    data = { :orders => orders_collection.as_hash }
     response = return_success data
     deliver_json(response)
   end
   
   get '/orders/buy' do
-    # TODO: this is essentially a duplicate of /orders/sell. Refactor
-    orders_hash = MagexServer.buy_orders.select(params)
-    orders_hash.each { |id, order| orders_hash[id] = order.data }
-    data = {:orders => orders_hash }
+    orders_collection = MagexServer.buy_orders.select(params)
+    data = { :orders => orders_collection.as_hash }
     response = return_success data
     deliver_json(response)
   end

@@ -20,7 +20,7 @@ describe MagexCollection do
   it "can select items by criteria" do
     item_id = subject.add([1,2,3])
     subject.add([1])
-    subject.select({:count => 3, :class => Array}).should eq({ item_id => subject.find(item_id)})
+    subject.select({:count => 3, :class => Array}).things.should eq({ item_id => subject.find(item_id)})
   end
   
   it "has a count" do

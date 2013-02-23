@@ -163,17 +163,6 @@ describe "for queries" do
     response_json["orders"].length.should eq(1)
     response_json["orders"].values.map {|order| order["action"]}.should eq(["buy"])
     response_json["orders"].values.map {|order| order["commodity"]}.should eq(["pixd"])
-  end
-  
-end
-
-describe "Pending Expectations" do
-  it "can find all completed orders" do
-    pending ("Needs order matching/transactions first.")
-  end
-
-  it "can find all completed orders for a given commodity" do
-    pending ("Needs order matching/transactions first.")
-  end
+  end  
 end
 

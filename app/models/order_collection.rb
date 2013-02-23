@@ -13,7 +13,7 @@ class OrderCollection < MagexCollection
     @things.each do |key,value|      
       return_items.push(value) if value.price >= number
     end
-    return_items    
+    return_items  
   end
   
   def price_at_most(number)
@@ -21,6 +21,14 @@ class OrderCollection < MagexCollection
     @things.each do |key,value|
       return_items.push(value) if value.price <= number
     end
-    return_items    
+    return_items
+  end
+  
+  def as_hash
+    return_hash = {}
+    @things.each { |key,value|
+      return_hash[key] = value.data
+    }
+    return_hash
   end
 end

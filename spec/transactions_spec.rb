@@ -58,6 +58,34 @@ describe MagexServer do
     MagexServer.sellers(buy_order_15g).should eq [sell_order_5g, sell_order_5gx, sell_order_10g, sell_order_15g]
   end
   
+  it "does not offer up escrow orders in buyers" do
+    MagexServer.post_order(buy_order_15g)
+    MagexServer.post_order(buy_order_5g)
+    buy_order_15g.in_escrow
+    MagexServer.buyers(sell_order_5g).should eq [buy_order_5g]
+  end
+
+  it "does not offer up escrow orders in sellers" do
+    MagexServer.post_order(sell_order_15g)
+    MagexServer.post_order(sell_order_5g)
+    sell_order_5g.in_escrow
+    MagexServer.sellers(buy_order_15g).should eq [sell_order_15g]
+  end
+
+  it "does not offer up closed orders in buyers" do
+    MagexServer.post_order(buy_order_15g)
+    MagexServer.post_order(buy_order_5g)
+    buy_order_15g.completed
+    MagexServer.buyers(sell_order_5g).should eq [buy_order_5g]
+  end
+
+  it "does not offer up closed orders in sellers" do
+    MagexServer.post_order(sell_order_15g)
+    MagexServer.post_order(sell_order_5g)
+    sell_order_5g.completed
+    MagexServer.sellers(buy_order_15g).should eq [sell_order_15g]
+  end
+  
   it "can transfer balances into a user account" do
     seller.balances[:wish].should eq 0
     result = MagexServer.add_to_account(seller, "wish", 50)

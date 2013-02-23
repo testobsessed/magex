@@ -1,13 +1,10 @@
-- Transactions: complete a transaction
-- Transactions: make sure that if the transaction cannot complete that everything goes back the way it was
-- Transactions: split orders functionality - 
 - Transactions: don't match order if funding not available
-- Transactions and escrow: immediately place order in escrow status when matched and begin escrow collection process
 - Matching - make sure it only offers up "open" orders - not escrow.
-- Transactions and escrow: if escrow collection fails - refund amounts escrowed and reopen the orders
+- Transactions: split orders functionality - 
+- Transactions: make sure that if the transaction cannot complete that everything goes back the way it was - refund amounts escrowed and reopen the orders
 - Change starting portfolio balances
 - Can rescind an order
-- Implement market valuation and stats to support more intelligent trading and dashboard view
+- Implement market valuation for a commodity, portfolio valuation, and stats to support more intelligent trading and dashboard view
 - Implement home page dashboard
 - Implement home page account registration
 - Write up "getting started info"

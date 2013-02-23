@@ -31,13 +31,13 @@ class MagexCollection
   end
   
   def select(criteria)
-    return_items = {}
+    return_items = self.class.new
     @things.each do |key,value|
       meets_criteria = true
       criteria.each do |method, criterion|
         meets_criteria &= (value.send(method) == criterion)
       end
-      return_items[key] = value if meets_criteria
+      return_items.add(value) if meets_criteria
     end
     return_items
   end
