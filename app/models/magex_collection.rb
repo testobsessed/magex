@@ -31,9 +31,11 @@ class MagexCollection
   end
   
   def get_index_for(thing)
-    @things.each do |index,stored_thing|
-      return index if thing == stored_thing
+    index = nil
+    @things.each do |key,stored_thing|
+      index = key if thing == stored_thing
     end
+    index
   end
   
   def move_to_end(thing)

@@ -12,6 +12,8 @@ class Order
   attr :status
   attr :action
   attr :order_id
+  attr :parent_id
+  attr :children
   
   include JSONChecker  
   @@input_json_shape = {
@@ -22,13 +24,14 @@ class Order
   }
 
   def initialize(data)
-    @username = data["username"]
-    @commodity = data["commodity"]
-    @quantity = data["quantity"]
-    @price = data["price"]
-    @action = data["action"]
+    @username = data[:username]
+    @commodity = data[:commodity]
+    @quantity = data[:quantity]
+    @price = data[:price]
+    @action = data[:action]
     @status = "open"
     @order_id = MagexServer.next_id
+    @parent_id = data[:parent_id] if data.has_key?(:parent_id)
   end
   
   def buy?
@@ -47,8 +50,16 @@ class Order
     @status = "completed"
   end
   
+  def split
+    @status = "split"
+  end
+  
   def open
     @status = "open"
+  end
+  
+  def register_children(order_ids)
+    @children = order_ids
   end
   
   def data

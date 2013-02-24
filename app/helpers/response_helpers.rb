@@ -27,5 +27,9 @@ def verify_submitted_data(payload, klass)
   data_as_json = JSON.parse(payload)
   response = klass.valid_json?(data_as_json)
   return nil if !klass.valid_json?(data_as_json)
+  data_as_json.keys.each do |key|
+    data_as_json[key.to_sym] = data_as_json[key]
+    data_as_json.delete(key)
+  end
   return data_as_json
 end

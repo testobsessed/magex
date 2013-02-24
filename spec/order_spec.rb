@@ -5,11 +5,11 @@ require 'spec_helper'
 
 describe Order do
   let(:order_data) {{
-    "username" => "cinderella",
-    "commodity" => "wish",
-    "quantity" => 50,
-    "price" => 5,
-    "action" => "sell"
+    :username => "cinderella",
+    :commodity => "wish",
+    :quantity => 50,
+    :price => 5,
+    :action => "sell"
   }}
   let(:order) { Order.new(order_data) }
   

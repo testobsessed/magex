@@ -29,12 +29,12 @@ class MagexServer < Sinatra::Base
     if order_data.nil?
       response = return_error 400, "Data malformed. Please check your syntax." 
     else
-      order_data.merge!({ "action" => action })
-      username = MagexServer.get_username_from_secret(order_data.delete("secret"))
+      order_data.merge!({ :action => action })
+      username = MagexServer.get_username_from_secret(order_data.delete(:secret))
       if !username
         response = return_error 400, "User not found. Are you sure you submitted your secret correctly?"
       else
-        order_data.merge!({ "username" => username })
+        order_data.merge!({ :username => username })
         order = Order.new(order_data)
         MagexServer.submit_order(order)
         response = return_success(order.data)

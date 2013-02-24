@@ -11,19 +11,19 @@ describe EscrowAccount do
     @buyer = MagexServer.register("buyer")
     @seller.add_to_balance(:wish, 10)
     @buy_order = Order.new({
-      "action" => "buy", 
-      "price" => 5,
-      "commodity" => "wish",
-      "quantity" => 10,
-      "username" => @buyer.username
+      :action => "buy", 
+      :price => 5,
+      :commodity => "wish",
+      :quantity => 10,
+      :username => @buyer.username
     })
     MagexServer.post_order(@buy_order)
     @sell_order = Order.new({
-      "action" => "sell", 
-      "price" => 5,
-      "commodity" => "wish",
-      "quantity" => 10,
-      "username" => @seller.username
+      :action => "sell", 
+      :price => 5,
+      :commodity => "wish",
+      :quantity => 10,
+      :username => @seller.username
     })
     MagexServer.post_order(@sell_order)
     @escrow = EscrowAccount.new(@buy_order, @sell_order)

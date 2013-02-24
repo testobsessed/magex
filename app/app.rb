@@ -95,6 +95,11 @@ class MagexServer < Sinatra::Base
         buy_order = order
         sell_order = match
       end
+      if buy_order.quantity > sell_order.quantity
+        buy_order = buy_orders.split_order(buy_order, sell_order.quantity)
+      elsif sell_order.quantity > buy_order.quantity
+        sell_order = sell_orders.split_order(sell_order, buy_order.quantity)
+      end
       escrow = EscrowAccount.new(buy_order, sell_order)
       escrow.collect_buyer_funds
       if !escrow.buyer_funded? # abort transaction

@@ -7,25 +7,25 @@ describe MagexServer do
   let(:seller)  { MagexServer.register("yakster") }
   let(:buyer) { MagexServer.register("hamster") }
   let(:sell_order_data) {{
-    "username" => seller.username,
-    "commodity" => "wish",
-    "quantity" => 50,
-    "action" => "sell"
+    :username => seller.username,
+    :commodity => "wish",
+    :quantity => 50,
+    :action => "sell"
   }}
   let(:buy_order_data) {{
-    "username" => buyer.username,
-    "commodity" => "wish",
-    "quantity" => 50,
-    "action" => "buy"
+    :username => buyer.username,
+    :commodity => "wish",
+    :quantity => 50,
+    :action => "buy"
   }}
-  let(:sell_order_5g) { Order.new(sell_order_data.merge({"price" => 5})) }
-  let(:buy_order_5g) { Order.new(buy_order_data.merge({"price" => 5})) }
-  let(:sell_order_5gx) { Order.new(sell_order_data.merge({"price" => 5})) }
-  let(:buy_order_5gx) { Order.new(buy_order_data.merge({"price" => 5})) }
-  let(:sell_order_10g) { Order.new(sell_order_data.merge({"price" => 10})) }
-  let(:buy_order_10g) { Order.new(buy_order_data.merge({"price" => 10})) }
-  let(:sell_order_15g) { Order.new(sell_order_data.merge({"price" => 15})) }
-  let(:buy_order_15g) { Order.new(buy_order_data.merge({"price" => 15})) }
+  let(:sell_order_5g) { Order.new(sell_order_data.merge({:price => 5})) }
+  let(:buy_order_5g) { Order.new(buy_order_data.merge({:price => 5})) }
+  let(:sell_order_5gx) { Order.new(sell_order_data.merge({:price => 5})) }
+  let(:buy_order_5gx) { Order.new(buy_order_data.merge({:price => 5})) }
+  let(:sell_order_10g) { Order.new(sell_order_data.merge({:price => 10})) }
+  let(:buy_order_10g) { Order.new(buy_order_data.merge({:price => 10})) }
+  let(:sell_order_15g) { Order.new(sell_order_data.merge({:price => 15})) }
+  let(:buy_order_15g) { Order.new(buy_order_data.merge({:price => 15})) }
   
 
   before(:each) do
@@ -123,11 +123,7 @@ describe MagexServer do
       sell_order_5g.status.should eq "completed"
       MagexServer.transactions.count.should eq 1
     end
-  
-    it "splittings an order if it can be partially completed" do
-      pending "TBD"
-    end
-  
+    
     it "with the best offer available if there are multiple" do
       MagexServer.post_order(sell_order_5g)
       MagexServer.post_order(sell_order_10g)
@@ -141,11 +137,11 @@ describe MagexServer do
       early_seller = MagexServer.register("early")
       early_seller.add_to_balance(:wish, 50)
       early_order = Order.new({
-        "username" => "early",
-        "commodity" => "wish",
-        "quantity" => 50,
-        "action" => "sell",
-        "price" => 5
+        :username => "early",
+        :commodity => "wish",
+        :quantity => 50,
+        :action => "sell",
+        :price => 5
       })
       MagexServer.post_order(early_order)
       MagexServer.post_order(sell_order_5g)
@@ -156,11 +152,11 @@ describe MagexServer do
     it "with the next best if the first match falls through" do
       MagexServer.register("early")
       early_order = Order.new({
-        "username" => "early",
-        "commodity" => "wish",
-        "quantity" => 50,
-        "action" => "sell",
-        "price" => 5
+        :username => "early",
+        :commodity => "wish",
+        :quantity => 50,
+        :action => "sell",
+        :price => 5
       })
       # note that early does not have enough goods to fulfill the order because
       # there is no add to balance.
@@ -196,4 +192,5 @@ describe MagexServer do
       buy_order_15g.status.should eq "open"
     end
   end
+
 end
