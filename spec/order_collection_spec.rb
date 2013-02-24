@@ -45,7 +45,10 @@ describe OrderCollection do
   end
   
   it "can move an order to the end" do
-    pending "move order to end"
+    subject.add(buy_order_cheap)
+    subject.add(buy_order_expensive)
+    subject.move_to_end(buy_order_cheap)
+    subject.last.should eq buy_order_cheap
   end
   
 end
