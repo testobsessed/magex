@@ -25,6 +25,12 @@ describe MagexCollection do
     subject.select({:count => 3, :class => Array}).values.should eq([subject.find(item_id)])
   end
   
+  it "can give me all items if select has no criteria" do
+    item1 = subject.add([1,2,3])
+    item2= subject.add([1])
+    subject.select(nil).values.should =~ [[1,2,3], [1]]
+  end
+  
   it "has a count" do
     item_id = subject.add( "Thing One" )
     subject.count.should == 1

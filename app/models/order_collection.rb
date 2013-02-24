@@ -38,7 +38,7 @@ class OrderCollection < MagexCollection
   
   def split_order(order, quantity)
     order.split
-    remainder = order.quantity - quantity
+    remainder = order.quantity.to_i - quantity.to_i
     split_data_a = order.data.merge({:quantity => quantity, :parent_id => order.order_id})
     split_data_b = order.data.merge({:quantity => remainder, :parent_id => order.order_id})
     split_a = Order.new(split_data_a)

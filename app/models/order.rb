@@ -26,8 +26,8 @@ class Order
   def initialize(data)
     @username = data[:username]
     @commodity = data[:commodity]
-    @quantity = data[:quantity]
-    @price = data[:price]
+    @quantity = data[:quantity].to_i
+    @price = data[:price].to_i
     @action = data[:action]
     @status = "open"
     @order_id = MagexServer.next_id
@@ -63,7 +63,7 @@ class Order
   end
   
   def data
-    {
+    order_fields = {
       :username => @username,
       :commodity => @commodity,
       :quantity => @quantity,
@@ -72,5 +72,8 @@ class Order
       :status => @status,
       :order_id => @order_id
     }
+    order_fields.merge!({ :children => @children }) if !@children.nil?
+    order_fields.merge!({ :parent_id => @parent_id}) if !@parent_id.nil?
+    order_fields
   end
 end

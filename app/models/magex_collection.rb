@@ -45,6 +45,7 @@ class MagexCollection
   end
   
   def select(criteria)
+    return self if criteria.nil?
     return_items = self.class.new
     @things.each do |key,value|
       meets_criteria = true

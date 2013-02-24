@@ -75,6 +75,8 @@ class MagexServer < Sinatra::Base
     
   def self.do_transaction(order)
     candidates = get_matches(order)
+    # todo: should set order to be buy or sell outside this loop so we don't 
+    # have to do the if inside the loop.
     candidates.each do |match|
       if order.sell?
         sell_order = order
