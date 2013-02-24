@@ -29,6 +29,13 @@ class MagexClient
   end
   
   def buy(commodity, quantity, price)
+    order_data = {
+      :secret => @secret, 
+      :commodity => commodity,
+      :quantity => quantity,
+      :price => price
+    }.to_json
+    magex_post(endpoints[:buy], order_data)
   end
   
   def sell(commodity, quantity, price)
@@ -42,6 +49,16 @@ class MagexClient
   end
   
   def open_buy_orders
+    response = []
+    full_orders = magex_get(endpoints[:open_buy_orders])
+    full_orders["orders"].each do |order_id, order_data|
+      response.push({
+        :commodity => order_data["commodity"].to_sym,
+        :price => order_data["price"],
+        :quantity => order_data["quantity"]
+      })
+    end
+    response
   end
   
   def endpoints

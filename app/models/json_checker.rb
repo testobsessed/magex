@@ -14,7 +14,7 @@ module JSONChecker
       return false unless payload.keys.sort == expected_json_shape.keys.sort
       expected_json_shape.each do |key, value|
         if value.class == Regexp
-          return false if !payload[key].match value
+          return false if !payload[key].to_s.match value
         elsif value.class == Array
           return false if !value.include? payload[key]
         end

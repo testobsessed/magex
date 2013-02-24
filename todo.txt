@@ -1,5 +1,5 @@
-- Full stack system test - started, need to polish and check in
-- Client gem
+- Client gem - test of client gem will also be system test
+- Travis all the things
 - Can rescind an order
 - Implement market valuation for a commodity, portfolio valuation, and stats to support more intelligent trading and dashboard view
 - Implement home page dashboard
