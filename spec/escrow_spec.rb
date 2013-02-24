@@ -9,7 +9,6 @@ describe EscrowAccount do
     MagexServer.reset
     @seller = MagexServer.register("seller")
     @buyer = MagexServer.register("buyer")
-    @seller.add_to_balance(:wish, 10)
     @buy_order = Order.new({
       :action => "buy", 
       :price => 5,
@@ -52,7 +51,7 @@ describe EscrowAccount do
     @escrow.collect_buyer_funds
     @escrow.collect_seller_goods
     @escrow.complete_transaction
-    @buyer.balances[:wish].should eq 10
+    @buyer.balances[:wish].should eq 20
     @buyer.balances[:gold].should eq 950
     @seller.balances[:wish].should eq 0
     @seller.balances[:gold].should eq 1050

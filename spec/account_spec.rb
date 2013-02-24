@@ -31,7 +31,7 @@ describe Account do
     
     it "can add to a balance" do
       result = account.add_to_balance(:wish, 50)
-      account.data[:balances][:wish].should eq 50
+      account.data[:balances][:wish].should eq 60
       result.should eq true
     end
     
@@ -77,7 +77,7 @@ describe Account do
     it "has an zero balance for all other commodities" do
       commodities = subject.keys - [:gold]
       balances = commodities.map {|key| subject[key] }
-      balances.each { |val| val.should eq(0) }
+      balances.each { |val| val.should eq(10) }
     end
     
   end

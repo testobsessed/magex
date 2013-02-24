@@ -30,7 +30,7 @@ describe MagexServer do
 
   before(:each) do
     MagexServer.reset
-    MagexServer.add_to_account(seller, "wish", 50)
+    MagexServer.add_to_account(seller, "wish", 40)
   end
 
   describe "matches" do

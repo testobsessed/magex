@@ -11,11 +11,11 @@ class Account
     @secret = self.class.generate_secret
     @balances = {
       :gold => 1000,
-      :wish => 0,
-      :flyc => 0,
-      :sisw => 0,
-      :mbns => 0,
-      :pixd => 0
+      :wish => 10,
+      :flyc => 10,
+      :sisw => 10,
+      :mbns => 10,
+      :pixd => 10
     }
     self
   end
