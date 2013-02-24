@@ -4,8 +4,12 @@
 require 'magex_collection'
 
 class OrderCollection < MagexCollection
-  def add(order)
-    @things[order.order_id] = order
+  def find(number)
+    item = nil
+    @things.each do |index, order|
+      item = order if order.order_id == number
+    end
+    item
   end
   
   def price_at_least(number)

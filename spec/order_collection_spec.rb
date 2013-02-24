@@ -28,13 +28,24 @@ describe OrderCollection do
   it "can find orders priced at least" do
     subject.add(buy_order_cheap)
     subject.add(buy_order_expensive)
-    subject.price_at_least(5).should eq [buy_order_cheap, buy_order_expensive]
+    subject.price_at_least(5).should =~ [buy_order_cheap, buy_order_expensive]
   end
   
   it "can find orders priced at most" do
     subject.add(buy_order_cheap)
     subject.add(buy_order_expensive)
     subject.price_at_most(5).should eq [buy_order_cheap]
+  end
+  
+  it "finds orders by order_id not collection id" do
+    order_id = buy_order_cheap.order_id
+    index_in_collection = subject.add(buy_order_cheap)
+    order_id.should_not eq index_in_collection # otherwise this test is meaningless
+    subject.find(order_id).should eq buy_order_cheap
+  end
+  
+  it "can move an order to the end" do
+    pending "move order to end"
   end
   
 end

@@ -89,7 +89,9 @@ class MagexServer < Sinatra::Base
     matched_orders = match_order(order)
     escrow = EscrowAccount.new(matched_orders[:buy_order], matched_orders[:sell_order])
     escrow.collect_buyer_funds
-    escrow.collect_seller_goods
+    return escrow.refund if !escrow.buyer_funded? # abort transaction
+    escrow.collect_seller_goods 
+    return escrow.refund if !escrow.seller_funded?
     result_data = escrow.complete_transaction
     transactions.add(result_data)
   end

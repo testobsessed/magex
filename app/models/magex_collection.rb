@@ -9,25 +9,37 @@ class MagexCollection
   end
   
   def add(thing)
-    id = count + 1
-    @things[id] = thing
-    id
+    thing_id = MagexServer.next_id
+    @things[thing_id] = thing
+    thing_id
   end
   
   def count
     @things.length
   end
   
-  def find(id)
-    @things[id]
+  def find(thing_id)
+    @things[thing_id]
   end
   
-  def delete(id)
-    @things.delete(id)
+  def delete(thing_id)
+    @things.delete(thing_id)
   end
   
   def values
     @things.values
+  end
+  
+  def get_index_for(thing)
+    @things.each do |index,stored_thing|
+      return index if thing == stored_thing
+    end
+  end
+  
+  def move_to_end(thing)
+    thing_id = get_index_for(thing)
+    @things.delete(thing_id)
+    add(thing)
   end
   
   def select(criteria)
@@ -41,5 +53,13 @@ class MagexCollection
     end
     return_items
   end
-
+  
+  def last
+    @things[max_key]
+  end
+  
+  def max_key
+    @things.keys.max
+  end
+    
 end

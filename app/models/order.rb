@@ -47,6 +47,10 @@ class Order
     @status = "completed"
   end
   
+  def open
+    @status = "open"
+  end
+  
   def data
     {
       :username => @username,

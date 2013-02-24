@@ -59,4 +59,19 @@ class EscrowAccount
   def complete?
     buyer_funded? && seller_funded?
   end
+  
+  def refund
+    @buy_order.open
+    @sell_order.open
+    if buyer_funded?
+      @buyer.add_to_balance(:gold, @escrow_gold) 
+    else
+      MagexServer.buy_orders.move_to_end(@buy_order)
+    end
+    if seller_funded?
+      @seller.add_to_balance(@escrow_commodity, @escrow_commodity_quantity)
+    else
+      MagexServer.sell_orders.move_to_end(@sell_order)
+    end
+  end
 end
