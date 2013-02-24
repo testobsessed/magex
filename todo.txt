@@ -1,4 +1,3 @@
-- Travis all the things
 - Implement market valuation for a commodity, portfolio valuation, and stats to support more intelligent trading and dashboard view
 - Implement home page dashboard
 - Implement home page account registration
