@@ -7,7 +7,6 @@ gem 'sinatra', :require => 'sinatra/base'
 gem 'haml'
 gem 'json'
 gem 'rest-client'
-gem 'rake'
 
 group :test do
   gem 'rspec'
