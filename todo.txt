@@ -1,4 +1,3 @@
-- fix copy paste in client
 - Client gem - test of client gem will also be system test
 - Travis all the things
 - Can rescind an order

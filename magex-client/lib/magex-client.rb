@@ -29,23 +29,11 @@ class MagexClient
   end
   
   def buy(commodity, quantity, price)
-    order_data = {
-      :secret => @secret, 
-      :commodity => commodity,
-      :quantity => quantity,
-      :price => price
-    }.to_json
-    magex_post(endpoints[:buy], order_data)
+    post_order(:buy, commodity, quantity, price)
   end
   
   def sell(commodity, quantity, price)
-    order_data = {
-      :secret => @secret, 
-      :commodity => commodity,
-      :quantity => quantity,
-      :price => price
-    }.to_json
-    magex_post(endpoints[:sell], order_data)
+    post_order(:sell, commodity, quantity, price)
   end
   
   def balances
@@ -58,31 +46,13 @@ class MagexClient
   def open_buy_orders(commodity = nil)
     url = endpoints[:open_buy_orders]
     url = "#{url}&commodity=#{commodity}" if !commodity.nil?
-    response = []
-    full_orders = magex_get(url)
-    full_orders["orders"].each do |order_id, order_data|
-      response.push({
-        :commodity => order_data["commodity"].to_sym,
-        :price => order_data["price"],
-        :quantity => order_data["quantity"]
-      })
-    end
-    response
+    get_orders_from(url)
   end
   
   def open_sell_orders(commodity = nil)
     url = endpoints[:open_sell_orders]
     url = "#{url}&commodity=#{commodity}" if !commodity.nil?
-    response = []
-    full_orders = magex_get(url)
-    full_orders["orders"].each do |order_id, order_data|
-      response.push({
-        :commodity => order_data["commodity"].to_sym,
-        :price => order_data["price"],
-        :quantity => order_data["quantity"]
-      })
-    end
-    response
+    get_orders_from(url)
   end
     
   def endpoints
@@ -114,5 +84,28 @@ class MagexClient
     end
     JSON.parse(response.body)
   end
-
+  
+  def post_order(type, commodity, quantity, price)
+    order_data = {
+      :secret => @secret, 
+      :commodity => commodity,
+      :quantity => quantity,
+      :price => price
+    }.to_json
+    magex_post(endpoints[type], order_data)
+  end
+  
+  def get_orders_from(url)
+    response = []
+    full_orders = magex_get(url)
+    full_orders["orders"].each do |order_id, order_data|
+      response.push({
+        :commodity => order_data["commodity"].to_sym,
+        :price => order_data["price"],
+        :quantity => order_data["quantity"]
+      })
+    end
+    response
+  end
+  
 end
