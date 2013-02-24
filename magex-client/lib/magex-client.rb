@@ -55,9 +55,11 @@ class MagexClient
     response
   end
   
-  def open_buy_orders
+  def open_buy_orders(commodity = nil)
+    url = endpoints[:open_buy_orders]
+    url = "#{url}&commodity=#{commodity}" if !commodity.nil?
     response = []
-    full_orders = magex_get(endpoints[:open_buy_orders])
+    full_orders = magex_get(url)
     full_orders["orders"].each do |order_id, order_data|
       response.push({
         :commodity => order_data["commodity"].to_sym,
@@ -68,9 +70,11 @@ class MagexClient
     response
   end
   
-  def open_sell_orders
+  def open_sell_orders(commodity = nil)
+    url = endpoints[:open_sell_orders]
+    url = "#{url}&commodity=#{commodity}" if !commodity.nil?
     response = []
-    full_orders = magex_get(endpoints[:open_sell_orders])
+    full_orders = magex_get(url)
     full_orders["orders"].each do |order_id, order_data|
       response.push({
         :commodity => order_data["commodity"].to_sym,
@@ -80,8 +84,7 @@ class MagexClient
     end
     response
   end
-  
-  
+    
   def endpoints
     {
       :register => "/account/register",

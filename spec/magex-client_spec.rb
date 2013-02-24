@@ -45,6 +45,30 @@ describe MagexClient do
       }
     ]
   end
+  
+  describe "Can complete a split transaction" do
+    before(:all) do
+      @gekko.sell(:mbns, 1, 5)
+      @mortimer.buy(:mbns, 2, 10)
+    end
+    
+    it "and transfer balances" do
+      @gekko.balances[:gold].should eq 1005
+      @gekko.balances[:mbns].should eq 9
+      @mortimer.balances[:gold].should eq 995
+      @mortimer.balances[:mbns].should eq 11
+    end
+    
+    it "and leave the unfulfilled part of the order open" do
+      @gekko.open_sell_orders(:mbns).should eq []
+      @mortimer.open_buy_orders(:mbns).should eq [
+        :commodity => :mbns,
+        :quantity => 1,
+        :price => 10,
+      ]
+    end
+  end
+  
     
 end
 
