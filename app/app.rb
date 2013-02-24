@@ -86,14 +86,29 @@ class MagexServer < Sinatra::Base
   end
   
   def self.do_transaction(order)
-    matched_orders = match_order(order)
-    escrow = EscrowAccount.new(matched_orders[:buy_order], matched_orders[:sell_order])
-    escrow.collect_buyer_funds
-    return escrow.refund if !escrow.buyer_funded? # abort transaction
-    escrow.collect_seller_goods 
-    return escrow.refund if !escrow.seller_funded?
-    result_data = escrow.complete_transaction
-    transactions.add(result_data)
+    candidates = get_matches(order)
+    candidates.each do |match|
+      if order.sell?
+        sell_order = order
+        buy_order = match
+      else
+        buy_order = order
+        sell_order = match
+      end
+      escrow = EscrowAccount.new(buy_order, sell_order)
+      escrow.collect_buyer_funds
+      if !escrow.buyer_funded? # abort transaction
+        escrow.refund
+      else
+        escrow.collect_seller_goods 
+        if !escrow.seller_funded?
+          escrow.refund
+        else
+          result_data = escrow.complete_transaction
+          return transactions.add(result_data)
+        end
+      end
+    end
   end
   
   def self.get_matches(order)

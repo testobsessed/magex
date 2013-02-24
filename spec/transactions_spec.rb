@@ -154,7 +154,6 @@ describe MagexServer do
     end
   
     it "with the next best if the first match falls through" do
-      pending "Not yet implemented"
       MagexServer.register("early")
       early_order = Order.new({
         "username" => "early",
@@ -163,10 +162,12 @@ describe MagexServer do
         "action" => "sell",
         "price" => 5
       })
+      # note that early does not have enough goods to fulfill the order because
+      # there is no add to balance.
       MagexServer.post_order(early_order)
       MagexServer.post_order(sell_order_5g)
       MagexServer.submit_order(buy_order_5g)
-      MagexServer.transactions.values.first[:seller].should eq "early"
+      MagexServer.transactions.values.first[:seller].should eq "yakster"
     end
   end
   
