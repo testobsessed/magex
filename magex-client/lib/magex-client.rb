@@ -39,6 +39,13 @@ class MagexClient
   end
   
   def sell(commodity, quantity, price)
+    order_data = {
+      :secret => @secret, 
+      :commodity => commodity,
+      :quantity => quantity,
+      :price => price
+    }.to_json
+    magex_post(endpoints[:sell], order_data)
   end
   
   def balances
@@ -61,12 +68,27 @@ class MagexClient
     response
   end
   
+  def open_sell_orders
+    response = []
+    full_orders = magex_get(endpoints[:open_sell_orders])
+    full_orders["orders"].each do |order_id, order_data|
+      response.push({
+        :commodity => order_data["commodity"].to_sym,
+        :price => order_data["price"],
+        :quantity => order_data["quantity"]
+      })
+    end
+    response
+  end
+  
+  
   def endpoints
     {
       :register => "/account/register",
       :buy => "/orders/buy",
       :sell => "/orders/sell",
       :open_buy_orders => "/orders/buy?status=open&username=#{@username}",
+      :open_sell_orders => "/orders/sell?status=open&username=#{@username}",
       :status => "/account/status/#{@secret}"
     }
   end

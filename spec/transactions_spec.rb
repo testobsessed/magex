@@ -89,6 +89,20 @@ describe MagexServer do
       sell_order_5g.completed
       MagexServer.sellers(buy_order_15g).should eq [sell_order_15g]
     end
+    
+    it "orders for different commodities" do
+      MagexServer.post_order(sell_order_5g)
+      pixie_dust_order = Order.new({
+        :username => buyer.username,
+        :commodity => "pixd",
+        :quantity => 50,
+        :action => "buy",
+        :price => 5
+      })
+      MagexServer.post_order(pixie_dust_order)
+      MagexServer.buyers(sell_order_5g).should eq []
+      MagexServer.sellers(pixie_dust_order).should eq []
+    end
   end
   
   describe "transfers balances" do

@@ -34,6 +34,17 @@ describe MagexClient do
       }
     ]
   end
+  
+  it "Can create a sell order" do
+    @gekko.sell(:pixd, 5, 10)
+    @gekko.open_sell_orders.should eq [
+      {
+        :commodity => :pixd,
+        :quantity => 5,
+        :price => 10,
+      }
+    ]
+  end
     
 end
 

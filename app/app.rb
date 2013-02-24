@@ -120,12 +120,12 @@ class MagexServer < Sinatra::Base
   end
   
   def self.buyers(order)
-    potential_buyers = buy_orders.select({:status => "open"}).price_at_least(order.price)
+    potential_buyers = buy_orders.select({:status => "open", :commodity => order.commodity}).price_at_least(order.price)
     potential_buyers.sort! { |a, b| [-a.price, a.order_id] <=> [-b.price, b.order_id] }
   end
   
   def self.sellers(order)
-    potential_sellers = sell_orders.select({:status => "open"}).price_at_most(order.price)
+    potential_sellers = sell_orders.select({:status => "open", :commodity => order.commodity}).price_at_most(order.price)
     potential_sellers.sort! { |a, b| [a.price, a.order_id] <=> [b.price, b.order_id] }
   end
   
