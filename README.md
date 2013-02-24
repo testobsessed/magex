@@ -1,4 +1,6 @@
-magex: The Magical Commodity Exchange Server
+[![Build Status](https://travis-ci.org/testobsessed/magex.png)](https://travis-ci.org/testobsessed/magex)
+
+MAGEX: The Magical Commodity Exchange Server
 =====
 
 Magex is a trading platform to support programming competitions and classroom exercises. You can use this code base to run your own magical commodity exchange, or you can write a client to participate in our hosted exchange (site to be determined).
