@@ -1,6 +1,6 @@
 - Full stack system test
-- Transactions: split orders functionality - 
 - Change starting portfolio balances
+- The way split works now, if the sale does not go through, you cannot merge the children back and put things back exactly the way they were. Is that OK?
 - Can rescind an order
 - Implement market valuation for a commodity, portfolio valuation, and stats to support more intelligent trading and dashboard view
 - Implement home page dashboard

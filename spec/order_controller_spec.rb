@@ -112,6 +112,15 @@ describe "for queries" do
     post "/orders/buy", @buy_order_data.merge({:commodity => "mbns", :secret => @user2 }).to_json
   end
   
+  it "can find all sell orders" do
+    get "/orders/sell"
+    response_should_be_success_with_keys ["code", "orders"]
+    response_json = JSON.parse(last_response.body)
+    response_json["orders"].length.should eq(3)
+    response_json["orders"].values.map {|order| order["action"]}.uniq.should eq(["sell"])
+    response_json["orders"].values.map {|order| order["commodity"]}.uniq.should =~ ["flyc", "wish"]
+  end
+  
   it "can find all open sell orders" do
     get "/orders/sell?status=open"
     response_should_be_success_with_keys ["code", "orders"]

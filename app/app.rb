@@ -72,19 +72,7 @@ class MagexServer < Sinatra::Base
   def self.remove_from_account(user, commodity, quantity)
     user.remove_from_balance(commodity.to_sym, quantity)
   end
-  
-  def self.match_order(order)
-    # todo: split into separate orders if needed and reset the matches
-    if order.sell?
-      sell_order = order
-      buy_order = get_matches(order).first
-    else
-      sell_order = get_matches(order).first
-      buy_order = order
-    end
-    { :buy_order => buy_order, :sell_order => sell_order }
-  end
-  
+    
   def self.do_transaction(order)
     candidates = get_matches(order)
     candidates.each do |match|
