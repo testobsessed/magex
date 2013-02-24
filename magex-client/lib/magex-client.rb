@@ -54,6 +54,14 @@ class MagexClient
     url = "#{url}&commodity=#{commodity}" if !commodity.nil?
     get_orders_from(url)
   end
+  
+  def market_valuations
+    response = {}
+    full_result = magex_get(endpoints[:market_valuations])
+    full_result.delete("code")
+    full_result.each { |key,value| response[key.to_sym] = value }
+    response
+  end
     
   def endpoints
     {
@@ -62,7 +70,8 @@ class MagexClient
       :sell => "/orders/sell",
       :open_buy_orders => "/orders/buy?status=open&username=#{@username}",
       :open_sell_orders => "/orders/sell?status=open&username=#{@username}",
-      :status => "/account/status/#{@secret}"
+      :status => "/account/status/#{@secret}",
+      :market_valuations => "/market/valuations"
     }
   end
   

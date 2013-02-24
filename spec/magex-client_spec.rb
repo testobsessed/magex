@@ -46,7 +46,7 @@ describe MagexClient do
     ]
   end
   
-  describe "Can complete a split transaction" do
+  describe "can make trades" do
     before(:all) do
       @gekko.sell(:mbns, 1, 5)
       @mortimer.buy(:mbns, 2, 10)
@@ -67,8 +67,18 @@ describe MagexClient do
         :price => 10,
       ]
     end
-  end
-  
+    
+    it "and put a valuation on traded commodities" do
+      value_hash = {
+        :wish => -1,
+        :flyc => -1,
+        :sisw => -1,
+        :mbns => 5, # sold 1 for 5 in previous test
+        :pixd => -1        
+      }
+      @gekko.market_valuations.should eq value_hash
+    end
+  end  
     
 end
 

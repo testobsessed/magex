@@ -53,3 +53,26 @@ def safe_parse(text)
   response
 end
 
+def test_transaction(commodity, quantity, price)
+  seller = MagexServer.register(get_random_username)
+  buyer = MagexServer.register(get_random_username)
+  order_data = {
+    :commodity => commodity,
+    :price => price,
+    :quantity => quantity
+  }
+  sell_order = Order.new(order_data.merge({:username => seller.username, :action => "sell"}))
+  buy_order = Order.new(order_data.merge({:username => buyer.username, :action => "buy"}))
+  MagexServer.post_order(sell_order)
+  MagexServer.submit_order(buy_order)
+end
+
+def get_random_username
+  timestamp = Time.now.to_i
+  valid_characters = [('a'..'z')].map{|i| i.to_a}.flatten
+  basename = (0...6).map{ valid_characters[rand(valid_characters.length)] }.join
+  "#{basename}#{timestamp}"
+end
+
+
+

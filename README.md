@@ -17,6 +17,12 @@ The rules of trading are simple:
 - Magex does not check your account balance until it has a possible match. This means you can place an offer to buy even if you do not have sufficient gold or an offer to sell even if you do not have a sufficient quantity of the commodity in question.
 - Magex may split a buy or sell order if it can partially complete the transaction. For example, if you place an order to buy 100 wishing wands for 5 gold each, and there is an offer to sell 50 wishing wands at 5 gold, Magex will purchase the 50 wishing wands on your behalf, creating a new order for the remaining 50.
 
+Valuation of commodities is based on actual trades. Until a trade is complete, the valuation of any commodity is returned as -1. Once there are trades, valuation is calculated as a rolling average using the sell price of up to the last 5 trades. So, for example, if Wishing Wands had traded twice so far, once with 10 wands at 5 gold each, and then with 20 wands at 2 wands each, the average would be calculated as follows:
+
+    ((10 * 5) + (20 * 2)) / 30 = (90 gold)/(30 wands) = 3 gold per wand
+    
+So the market valuation of wands would be set at 3 gold. Market valuations are rounded to the nearest gold. So if the market valuation is calculated at 2.7 gold it will still be reported as 3 gold.
+
 # Running the Server
 
 Magex is written in Ruby using Sinatra. To get started experimenting on your local development machine:

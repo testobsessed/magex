@@ -137,6 +137,31 @@ class MagexServer < Sinatra::Base
     end
   end
   
+  def self.market_valuations
+    response = {}
+    RegisteredCommodities.list.each do |commodity|
+      response[commodity.to_sym] = calculate_valuation(commodity.to_sym)
+    end
+    response
+  end
+  
+  def self.calculate_valuation(commodity)
+    
+    # select only the relevant transactions
+    related_transactions = transactions.things.select {|k,v| v[:commodity] == commodity }
+    
+    # bail if there were no transactions
+    return -1 if related_transactions.count == 0
+    
+    # get last 5 relevant keys
+    thing = related_transactions.sort.reverse[0..4].map { |data_array| data_array.last }
+
+    # calculate the average
+    total_quantity_traded = thing.map { |item| item[:quantity] }.inject(:+)
+    total_gold_paid = thing.map { |item| item[:quantity]*item[:price] }.inject(:+)
+    market_value = total_gold_paid / total_quantity_traded
+  end
+  
   get '/' do
     status 200
     haml :main
