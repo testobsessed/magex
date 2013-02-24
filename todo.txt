@@ -1,13 +1,10 @@
-- Full stack system test
-- Change starting portfolio balances
-- The way split works now, if the sale does not go through, you cannot merge the children back and put things back exactly the way they were. Is that OK?
+- Full stack system test - started, need to polish and check in
 - Can rescind an order
 - Implement market valuation for a commodity, portfolio valuation, and stats to support more intelligent trading and dashboard view
 - Implement home page dashboard
 - Implement home page account registration
 - Write up "getting started info"
 - Make account use json checker
-- Revisit strings v. symbols - JSON comes in as strings, but should immediately become symbols
 - Make order statuses into symbols
 
 Write FAQ questions
@@ -17,6 +14,3 @@ Write FAQ questions
     
 - What if I don't have enough in my account to cover a trade?
     Note penalty of going to the back of the line
-    
-    
-- Do I have a bug (or lots of bugs) where my code both modifies objects outside a collection - and the value inside the collection is not what I think? (object manipulation on different object than I think?) Need full stack system tests to check.
