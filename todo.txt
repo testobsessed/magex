@@ -1,10 +1,11 @@
-- Implement market valuation for a commodity, portfolio valuation, and stats to support more intelligent trading and dashboard view
+- Finish/polish samples
 - Implement home page dashboard
 - Implement home page account registration
 - Can rescind an order
 - Write up "getting started info"
-- Make account use json checker
-- Make order statuses into symbols
+- Make account use json checker #techdebt
+- Make order statuses into symbols #techdebt
+- Implement more stats to support more intelligent trading and dashboard view
 
 Write FAQ questions
 
