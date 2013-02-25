@@ -29,4 +29,10 @@ class MagexServer < Sinatra::Base
     end
     deliver_json(response)
   end
+  
+  get '/account/value/:secret' do
+    data = { :value => MagexServer.accounts.find(params[:secret]).portfolio_valuation}
+    response = return_success data
+    deliver_json(response)
+  end
 end

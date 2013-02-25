@@ -44,6 +44,15 @@ class Account
     data[:balances][commodity] -= quantity
     true
   end
+  
+  def portfolio_valuation
+    holding_values = [balances[:gold]]
+    valuations = MagexServer.market_valuations
+    valuations.each do |commodity, value|
+      holding_values.push(value*balances[commodity])
+    end
+    holding_values.inject(:+)
+  end
 end
 
 

@@ -62,6 +62,11 @@ class MagexClient
     full_result.each { |key,value| response[key.to_sym] = value }
     response
   end
+  
+  def portfolio_valuation
+    full_response = magex_get(endpoints[:portfolio_valuation])
+    full_response["value"]
+  end
     
   def endpoints
     {
@@ -71,7 +76,8 @@ class MagexClient
       :open_buy_orders => "/orders/buy?status=open&username=#{@username}",
       :open_sell_orders => "/orders/sell?status=open&username=#{@username}",
       :status => "/account/status/#{@secret}",
-      :market_valuations => "/market/valuations"
+      :market_valuations => "/market/valuations",
+      :portfolio_valuation => "/account/value/#{@secret}"
     }
   end
   

@@ -89,4 +89,19 @@ describe Account do
     secrets.uniq.length.should eq(test_length)
   end
   
+  it "can generate starting portfolio value" do
+    # starting valuation is 950 because untraded
+    # commodities count for -1. -1*10*5 = -50
+    account.portfolio_valuation.should eq 950
+  end
+  
+  it "can generate portfolio value once trading starts" do
+    test_transaction(:mbns, 1, 10)
+    test_transaction(:wish, 1, 10)
+    test_transaction(:flyc, 1, 10)
+    test_transaction(:sisw, 1, 10)
+    test_transaction(:pixd, 1, 10)
+    account.portfolio_valuation.should eq 1500
+  end
+  
 end

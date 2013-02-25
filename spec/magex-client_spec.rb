@@ -78,6 +78,11 @@ describe MagexClient do
       }
       @gekko.market_valuations.should eq value_hash
     end
+    
+    it "and report the portfolio valuation" do
+      @mortimer.portfolio_valuation.should eq 1010
+      @gekko.portfolio_valuation.should eq 1010
+    end
   end  
     
 end
