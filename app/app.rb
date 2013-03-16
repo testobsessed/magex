@@ -94,10 +94,14 @@ class MagexServer < Sinatra::Base
       escrow.collect_buyer_funds
       if !escrow.buyer_funded? # abort transaction
         escrow.refund
+        buy_order.mark_fail
+        buy_order.cancel if (buy_order.failed_count >= 3)
       else
         escrow.collect_seller_goods 
         if !escrow.seller_funded?
           escrow.refund
+          sell_order.mark_fail
+          sell_order.cancel if (sell_order.failed_count >= 3)
         else
           result_data = escrow.complete_transaction
           return transactions.add(result_data)

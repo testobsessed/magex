@@ -14,6 +14,7 @@ class Order
   attr :order_id
   attr :parent_id
   attr :children
+  attr :failed_count
   
   include JSONChecker  
   @@input_json_shape = {
@@ -32,6 +33,7 @@ class Order
     @status = "open"
     @order_id = MagexServer.next_id
     @parent_id = data[:parent_id] if data.has_key?(:parent_id)
+    @failed_count = 0
   end
   
   def buy?
@@ -58,8 +60,16 @@ class Order
     @status = "open"
   end
   
+  def cancel
+    @status = "cancelled"
+  end
+  
   def register_children(order_ids)
     @children = order_ids
+  end
+  
+  def mark_fail
+    @failed_count += 1
   end
   
   def data
@@ -70,7 +80,8 @@ class Order
       :price => @price,
       :action => @action,
       :status => @status,
-      :order_id => @order_id
+      :order_id => @order_id,
+      :failed_count => @failed_count
     }
     order_fields.merge!({ :children => @children }) if !@children.nil?
     order_fields.merge!({ :parent_id => @parent_id}) if !@parent_id.nil?

@@ -22,6 +22,7 @@ describe Order do
     it { should include(:price) }
     it { should include(:action) }
     it { should include(:order_id) }
+    it { should include(:failed_count) }
   end
   
   describe "has the right values" do
@@ -49,6 +50,9 @@ describe Order do
       subject[:status].should eq("open")
     end
     
+    it "has a count of the number of times it has been matched" do
+      subject[:failed_count].should eq(0)
+    end
   end
 
   it "has a unique ID" do
@@ -62,4 +66,5 @@ describe Order do
     10.times { orders.push(Order.new(order_data)) }
     orders.map {|o| o.order_id }.should =~ expected_ids
   end
+  
 end

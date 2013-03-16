@@ -54,5 +54,6 @@ describe MagexServer do
       }
       MagexServer.market_valuations.should eq starting_valuations
     end
+    
   end
 end

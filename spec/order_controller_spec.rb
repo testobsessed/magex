@@ -25,7 +25,8 @@ describe "Buy order routes" do
        "username", 
        "commodity", 
        "quantity", 
-       "price"])
+       "price",
+       "failed_count"])
    end
   
    it "make the status open if no matching sell order is available" do
@@ -63,7 +64,8 @@ describe "Sell order routes" do
        "username", 
        "commodity", 
        "quantity", 
-       "price"])
+       "price",
+       "failed_count"])
   end
   
   it "make the status open if no matching sell order is available" do

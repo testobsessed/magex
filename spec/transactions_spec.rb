@@ -90,6 +90,21 @@ describe MagexServer do
       MagexServer.sellers(buy_order_15g).should eq [sell_order_15g]
     end
     
+    it "cancelled orders in buyers" do
+      MagexServer.post_order(buy_order_15g)
+      MagexServer.post_order(buy_order_5g)
+      buy_order_15g.cancel
+      MagexServer.buyers(sell_order_5g).should eq [buy_order_5g]
+    end
+
+    it "cancelled orders in sellers" do
+      MagexServer.post_order(sell_order_15g)
+      MagexServer.post_order(sell_order_5g)
+      sell_order_5g.cancel
+      MagexServer.sellers(buy_order_15g).should eq [sell_order_15g]
+    end
+    
+    
     it "orders for different commodities" do
       MagexServer.post_order(sell_order_5g)
       pixie_dust_order = Order.new({
@@ -182,6 +197,7 @@ describe MagexServer do
   end
   
   describe "does not complete transactions" do
+    # todo make this a nested describe
     it "if funds could not be collected" do
       buyer.remove_from_balance(:gold, 1000)
       buyer.balances[:gold].should eq 0
@@ -192,6 +208,8 @@ describe MagexServer do
       MagexServer.transactions.count.should eq 0
       sell_order_5g.status.should eq "open"
       buy_order_15g.status.should eq "open"
+      sell_order_5g.failed_count.should eq 0
+      buy_order_15g.failed_count.should eq 1
     end
   
     it "if goods cannot be delivered" do
@@ -204,7 +222,32 @@ describe MagexServer do
       seller.balances[:wish].should eq 0
       sell_order_5g.status.should eq "open"
       buy_order_15g.status.should eq "open"
+      sell_order_5g.failed_count.should eq 1
+      buy_order_15g.failed_count.should eq 0
     end
+    
+    it "and ages out unfillable sell orders after 3 tries" do
+      seller.remove_from_balance(:wish, 50)
+      MagexServer.post_order(sell_order_5g)
+      MagexServer.submit_order(buy_order_5g) # buy number 1
+      sell_order_5g.status.should eq "open"
+      MagexServer.submit_order(buy_order_5g) # buy number 2
+      sell_order_5g.status.should eq "open"
+      MagexServer.submit_order(buy_order_5g) # buy number 3
+      sell_order_5g.status.should eq "cancelled"
+    end
+
+    it "and ages out unfundable buy orders after 3 tries" do
+      buyer.remove_from_balance(:gold, 1000)
+      MagexServer.post_order(buy_order_5g)
+      MagexServer.submit_order(sell_order_5g) # buy number 1
+      buy_order_5g.status.should eq "open"
+      MagexServer.submit_order(sell_order_5g) # buy number 2
+      buy_order_5g.status.should eq "open"
+      MagexServer.submit_order(sell_order_5g) # buy number 3
+      buy_order_5g.status.should eq "cancelled"
+    end
+      
   end
 
 end
